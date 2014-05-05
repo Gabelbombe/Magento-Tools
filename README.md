@@ -2,6 +2,7 @@ Shell scripts are available anywhere
 
  - env-setup.sh
 
+````
  -- Setup an environment for Ubuntu 14.04 LTS Server
  -- Installs the following packages
 
@@ -10,6 +11,7 @@ Shell scripts are available anywhere
  --- Apache2 2.4+ 
  --- NGnix
  --- Apache SOLR
+````
 
 DO NOT USE FILES IN PHP, THEY DIRECTLY TALK TO YOUR EAV DB AND CAN CRIPPLE YOUR DATABASE!!!!!
 
