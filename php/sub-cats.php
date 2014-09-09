@@ -83,9 +83,8 @@
 
               $parentCategory = Mage::getModel('catalog/category')->load($parentId);
               $category->setPath($parentCategory->getPath());
-
           }
-          
+
           /**
            * Check "Use Default Value" checkboxes values
            */
@@ -99,7 +98,7 @@
               parse_str($data['category_products'], $products);
               $category->setPostedProducts($products);
           }
-              
+
           try 
           {
               $category->save();
@@ -108,7 +107,6 @@
           catch (Exception $e)
           {
               echo "Failed <br />";
-
           }
       }
   }
