@@ -47,7 +47,7 @@
       if (! $customer->getId()) 
       {
 
-        echo "\nAdding: {$cu->customer->firstname} {$cu->customer->lastname}\n\n";
+        echo "\nAdding: {$cu->customer->firstname} {$cu->customer->lastname}\n";
 
         $customer->setWebsiteId($webid)
                  ->setStore($store)
@@ -83,7 +83,7 @@
         Zend_Debug::dump($e->getMessage());
       }
 
-      echo "Adding Billing Address\n";
+      echo "\tAdding Billing Address\n";
 
       // Set biilling address
       $regionModel = Mage::getModel('directory/region')
@@ -126,7 +126,7 @@
         Zend_Debug::dump($e->getMessage());
       }
 
-      echo "Adding Shipping Address\n";
+      echo "\tAdding Shipping Address\n";
 
       // Set shipping address
       $regionModel = Mage::getModel('directory/region')
