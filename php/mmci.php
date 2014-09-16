@@ -98,13 +98,10 @@
               ->setFirstname          ($customer->getFirstname())
               ->setMiddleName         ($customer->getMiddlename())
               ->setLastname           ($customer->getLastname())
+
+              ->setCompany            ($cu->billing->company)
             
               ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
-              ->setPostcode           ($cu->billing->postal)
-              ->setCity               ($cu->billing->city)
-              ->setTelephone          ($cu->billing->phone)
-              ->setCompany            ($cu->billing->company)
-
               ->setStreet             ($cu->billing->street1)
 /*
               ->setData               (['street' => [
@@ -113,8 +110,12 @@
                                         $cu->billing->street3,
                                       ]])
 */
+              ->setCity               ($cu->billing->city)
+              ->setState              ($cu->billing->state)
+              ->setPostcode           ($cu->billing->postal)
+
+              ->setTelephone          ($cu->customer->phone)
               ->setIsDefaultBilling   ('1')
-              ->setIsDefaultShipping  ('0')
               ->setSaveInAddressBook  ('1');
 
       try {
@@ -140,22 +141,22 @@
               ->setFirstname          ($customer->getFirstname())
               ->setMiddleName         ($customer->getMiddlename())
               ->setLastname           ($customer->getLastname())
+              ->setCompany            ($cu->shipping->company)
             
               ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
-              ->setPostcode           ($cu->shipping->postal)
-              ->setCity               ($cu->shipping->city)
-              ->setTelephone          ($cu->shipping->phone)
-              ->setCompany            ($cu->shipping->company)
-
-              ->setStreet             ($cu->billing->street1)
+              ->setStreet             ($cu->shipping->street1)
 /*
               ->setData               (['street' => [
-                                        $cu->billing->street1, 
-                                        $cu->billing->street2, 
-                                        $cu->billing->street3,
+                                        $cu->shipping->street1, 
+                                        $cu->shipping->street2, 
+                                        $cu->shipping->street3,
                                       ]])
 */
-              ->setIsDefaultBilling   ('0')
+              ->setCity               ($cu->shipping->city)
+              ->setState              ($cu->shipping->state)
+              ->setPostcode           ($cu->shipping->postal)
+
+              ->setTelephone          ($cu->customer->phone)
               ->setIsDefaultShipping  ('1')
               ->setSaveInAddressBook  ('1');
 
