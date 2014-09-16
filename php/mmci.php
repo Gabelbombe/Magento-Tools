@@ -50,8 +50,7 @@
       // if customer does not already exists, by email
       if (! $customer->getId()) 
       {
-        echo "\nTotals: {$conn->left()}/{$total}";
-        echo "\nAdding: {$cu->customer->firstname} {$cu->customer->lastname}\n\n";
+        echo "\nProcessing: {$cu->customer->firstname} {$cu->customer->lastname}\n\n";
 
         $customer->setWebsiteId($webid)
                  ->setStore($store)
@@ -168,7 +167,8 @@
           Zend_Debug::dump($e->getMessage());
         }
 
-        echo "\tCountry Origin:   {$cu->billing->countryName}\n";
+        echo "\tCountry Origin:   {$cu->billing->countryName}\n\n";
+        echo "\tClients remaing:  {$conn->left()}/{$total}\n";
 
       } else {
 
