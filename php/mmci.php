@@ -92,6 +92,7 @@
                 ->setCompany            ($cu->billing->company)
 
                 ->setRegionId           ($rid)
+                ->setCountryId          ($cu->billing->countryId)
 
                 ->setStreet             ([
                                           $cu->billing->street1, 
@@ -100,6 +101,7 @@
                                         ])
 
                 ->setCity               ($cu->billing->city)
+                ->setRegion             ($cu->billing->state)
                 ->setPostcode           ($cu->billing->postal)
 
                 ->setTelephone          ($cu->customer->phone)
@@ -136,6 +138,7 @@
                 ->setCompany            ($cu->shipping->company)
 
                 ->setRegionId           ($rid)
+                ->setCountryId          ($cu->shipping->countryId)
 
                 ->setStreet             ([
                                           $cu->shipping->street1, 
@@ -144,6 +147,7 @@
                                         ])
 
                 ->setCity               ($cu->shipping->city)
+                ->setRegion             ($cu->shipping->state)
                 ->setPostcode           ($cu->shipping->postal)
 
                 ->setTelephone          ($cu->customer->phone)
