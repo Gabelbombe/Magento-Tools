@@ -14,7 +14,7 @@
    */
 
   define('MAGENTO', realpath(dirname(__FILE__)));
-  require_once MAGENTO . '/../app/Mage.php';
+  require_once MAGENTO . '/../../app/Mage.php';
 
   umask(0);
   Mage::app();
@@ -35,10 +35,12 @@
       $store    = Mage::app()->getStore();
 
       $customer->loadByEmail($cu->email);
-    
+
       // if customer does not already exists, by email
       if (! $customer->getId()) 
       {
+
+        echo "\nAdding: {$$cu->customer->firstname} {$cu->customer->lastname}\n\n";
 
         $customer->setWebsiteId($wid)
                  ->setStore($store)
@@ -57,11 +59,11 @@
 
       } else {
        // do something here for existing customers
+        echo "\n---> Found an existing customer: $cu->customer->email\n\n";
       }
 
       try 
       {
-
         // ?? $customer->save()->setConfirmation(null)->save();
         $customer->setConfirmation(null)
                  ->save();
@@ -73,7 +75,6 @@
       } catch (Exception $e) {
         Zend_Debug::dump($e->getMessage());
       }
-
 
       // Set biilling address
       $regionModel = Mage::getModel('directory/region')
