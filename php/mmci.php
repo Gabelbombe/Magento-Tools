@@ -46,7 +46,6 @@
       // if customer does not already exists, by email
       if (! $customer->getId()) 
       {
-
         echo "\nAdding: {$cu->customer->firstname} {$cu->customer->lastname}\n";
 
         $customer->setWebsiteId($webid)
@@ -111,6 +110,7 @@
               ->setPostcode           ($cu->billing->postal)
 
               ->setTelephone          ($cu->customer->phone)
+              ->setIsDefaultShipping  ('1')
               ->setIsDefaultBilling   ('1')
               ->setSaveInAddressBook  ('1');
 
@@ -121,9 +121,9 @@
       catch (Exception $e) {
         Zend_Debug::dump($e->getMessage());
       }
-
-      echo "\tShipping Address: {$cu->shipping->postal}\n";
 /*
+      echo "\tShipping Address: {$cu->shipping->postal}\n";
+
       // Set shipping address
       $regionModel = Mage::getModel('directory/region')
                          ->loadByCode(
@@ -132,7 +132,7 @@
                          );
 
       $rid = $regionModel->getId();
-*/
+
       $address->setCustomerId         ($customer->getId())
               ->setFirstname          ($customer->getFirstname())
               ->setMiddleName         ($customer->getMiddlename())
@@ -141,13 +141,13 @@
 
 //              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
               ->setStreet             ($cu->shipping->street1)
-/*
+
               ->setData               (['street' => [
                                         $cu->shipping->street1, 
                                         $cu->shipping->street2, 
                                         $cu->shipping->street3,
                                       ]])
-*/
+
               ->setCity               ($cu->shipping->city)
               ->setState              ($cu->shipping->state)
               ->setPostcode           ($cu->shipping->postal)
@@ -163,6 +163,13 @@
       catch (Exception $e) {
         Zend_Debug::dump($e->getMessage());
       }
+*/
+    $customerAddress = [];
+    foreach ($customer->getAddresses() AS $address)
+       $customerAddress = $address->toArray();
+
+    print_r($customerAddress, 1);
+
     }
 
 
