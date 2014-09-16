@@ -25,8 +25,10 @@
 
   require_once MAGENTO . '/classes/pdoBinder.php';
 
-  $conn = New \Connection();
-  $conn = $conn->setTotals()->chunk()->getCustomers()->set('cu');
+  $conn  = New \Connection();
+  $conn  = $conn->setTotals()->chunk()->getCustomers()->set('cu');
+
+  $total = $conn->getTotal();
 
   echo "Starting\n";
 
@@ -46,6 +48,7 @@
       // if customer does not already exists, by email
       if (! $customer->getId()) 
       {
+        echo "\n{$conn->left()}/{$total}\n"
         echo "\nAdding: {$cu->customer->firstname} {$cu->customer->lastname}\n\n";
 
         $customer->setWebsiteId($webid)
@@ -74,7 +77,7 @@
 
         echo "\tBilling Address: {$cu->billing->postal}\n";
 
-        // Set biilling address
+        // Set billing address
         $regionModel = Mage::getModel('directory/region')
                            ->loadByCode(
                               $cu->state, 
@@ -167,6 +170,7 @@
        // do something here for existing customers
         echo "\n---> Found an existing customer: {$cu->customer->email}\n\n";
       }
+      $conn->decrement(); // --
     }
 
     $conn = $conn->getCustomers()->set('cu');

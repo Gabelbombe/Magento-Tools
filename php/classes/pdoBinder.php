@@ -7,7 +7,7 @@ Class PDOConfig Extends PDO
     private $database;
     private $user;
     private $pass;
-   
+
     public function __construct()
     {
         $this->engine   = 'mysql';
@@ -24,6 +24,7 @@ Class PDOConfig Extends PDO
 Class Connection
 {
     public  $slice      = 0;
+    public  $dec        = 0;
 
     private $total      = 0,
             $firstId    = 0,
@@ -52,6 +53,7 @@ Class Connection
         $obj = $res->fetchAll(PDO::FETCH_CLASS, 'ArrayObject') [0];
 
             $this->total = $obj->total;
+            $this->dec   = $obj->total;
 
         $res = $this->dbh->query('SELECT id AS firstId FROM wds_user ORDER BY id ASC LIMIT 1');
         $res->execute();
@@ -77,7 +79,7 @@ Class Connection
         while (true)
         {
             $c = ($i + $range);
-            if ($this->lastId < $c) 
+            if ($this->lastId < $c)
             {
                 $this->map[] = [
                     (int) $i, 
@@ -88,7 +90,7 @@ Class Connection
             }
 
             $this->map[] = [
-                (int) $i, 
+                (int) $i,
                 (int) $c
             ]; 
 
@@ -134,7 +136,6 @@ Class Connection
         return $this;
     }
 
-
     protected function getCustomerLists()
     {
         if (isset($this->map[$this->slice]) && ! empty($this->map[$this->slice]))
@@ -155,13 +156,9 @@ Class Connection
                         first_name  AS firstname,
                         middle_name AS middlename,
                         last_name   AS lastname
-
                      FROM 
-
                         wds_user
-
                      WHERE
-
                         id = :id'
                 ));
 
@@ -240,7 +237,7 @@ Class Connection
 
                 $res->bindParam(':id',  $object->shipping->id, PDO::PARAM_INT);
                 $res->execute();
-                
+
                 $result = $res->fetchAll(PDO::FETCH_OBJ);
 
                 $object->customer->phone = (isset($result [0]) && ! empty($result [0]))
@@ -264,5 +261,15 @@ Class Connection
         return (isset($this->map[$this->slice]) && ! empty($this->map[$this->slice])) 
             ? $this
             : false;
+    }
+
+    public function decrement()
+    {
+        $this->dec--;
+    }
+
+    public function left()
+    {
+        return $this->dec;
     }
 }
