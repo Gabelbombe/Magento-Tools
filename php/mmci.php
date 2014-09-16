@@ -168,6 +168,9 @@
       }
 
     $customerAddress = [];
+print_r($customer->getAddresses());
+die;
+
     foreach ($customer->getAddresses() AS $address)
        $customerAddress = $address->toArray();
 
