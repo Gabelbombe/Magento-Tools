@@ -62,7 +62,7 @@
         // generate a new password
         $customer->changePassword(trim("
           I thought what I'd do was, I'd pretend I was one of those deaf-mutes.
-        ");
+        "));
 
       } else {
        // do something here for existing customers
