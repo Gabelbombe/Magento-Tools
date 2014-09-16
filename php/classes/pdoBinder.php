@@ -12,9 +12,9 @@ class PDOConfig Extends PDO
     {
         $this->engine   = 'mysql';
         $this->host     = 'localhost';
-        $this->database = '';
+        $this->database = 'filson';
         $this->user     = 'root';
-        $this->pass     = '';
+        $this->pass     = 'm1+n3{$S*?.3/(-aK(MJg$~ld_.".G9E';
         $dns = $this->engine.':dbname='.$this->database.";host=".$this->host;
         parent::__construct( $dns, $this->user, $this->pass );
     }
@@ -141,6 +141,8 @@ Class Connection
         {
             foreach ($this->map[$this->slice] AS $id => &$object)
             {
+
+                // General Customer Info
                 $res = $this->dbh->prepare(trim(
                     'SELECT 
                         ""              AS prefix,
@@ -168,6 +170,8 @@ Class Connection
 
                 $object->customer = $res->fetchAll(PDO::FETCH_OBJ) [0];
 
+
+                // Billing Address
                 $res = $this->dbh->prepare(
                     'SELECT 
                         id,
@@ -187,8 +191,10 @@ Class Connection
 
                 $res->bindParam(':id',  $object->billing, PDO::PARAM_INT);
                 $res->execute();
+
                 $object->billing = $res->fetchAll(PDO::FETCH_OBJ) [0];
 
+                // Shipping Address
                 $res = $this->dbh->prepare(
                     'SELECT 
                         id,
@@ -200,9 +206,9 @@ Class Connection
                         state,
                         postal_code AS postal,
                         country_id  AS countryId
-                    FROM 
+                     FROM 
                         wds_address 
-                    WHERE 
+                     WHERE 
                         id = :id'
                 );
 
@@ -210,6 +216,28 @@ Class Connection
                 $res->execute();
 
                 $object->shipping = $res->fetchAll(PDO::FETCH_OBJ) [0];
+
+                // Phone Number
+                $res = $this->dbh->prepare(
+                    'SELECT 
+                        wdp.phone_number AS phone
+                     FROM 
+                        wds_phone wdp, 
+                        wds_address_phone wda
+                     WHERE 
+                        wda.wds_phone_id = wdp.id
+                     AND 
+                        wda.wds_address_id = :id'
+                );
+
+                $res->bindParam(':id',  $object->shipping->id, PDO::PARAM_INT);
+                $res->execute();
+                
+                $result = $res->fetchAll(PDO::FETCH_OBJ);
+
+                $object->customer->phone = (isset($result [0]) && ! empty($result [0]))
+                    ? $result [0]->phone
+                    : null;
             }
         }
         return $this;
@@ -230,3 +258,5 @@ Class Connection
             : false;
     }
 }
+
+  print_r($conn->cu); die;
