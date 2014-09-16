@@ -51,7 +51,7 @@
 
         $customer->setWebsiteId($webid)
                  ->setStore($store)
-                 ->setGroupId(2)
+                 ->setGroupId(1)    // Retail I hope (2) is Wholesaler
                  ->setPrefix        ($cu->customer->prefix)
                  ->setFirstname     ($cu->customer->firstname)
                  ->setMiddleName    ($cu->customer->middlename)
@@ -59,12 +59,11 @@
                  ->setSuffix        ($cu->customer->suffix)
                  ->setEmail         ($cu->customer->email);
 
-/*
         // generate a new password
-        $customer->changePassword(
-          $customer->generatePassword()
-        );
-*/
+        $customer->changePassword(trim("
+          I thought what I'd do was, I'd pretend I was one of those deaf-mutes.
+        ");
+
       } else {
        // do something here for existing customers
         echo "\n---> Found an existing customer: $cu->customer->email\n\n";
@@ -106,14 +105,16 @@
               ->setTelephone          ($cu->billing->phone)
               ->setCompany            ($cu->billing->company)
 
+              ->setStreet             ($cu->billing->street1)
+/*
               ->setData               (['street' => [
                                         $cu->billing->street1, 
                                         $cu->billing->street2, 
                                         $cu->billing->street3,
                                       ]])
-
+*/
               ->setIsDefaultBilling   ('1')
-//              ->setIsDefaultShipping  ('1')
+              ->setIsDefaultShipping  ('0')
               ->setSaveInAddressBook  ('1');
 
       try {
@@ -146,13 +147,15 @@
               ->setTelephone          ($cu->shipping->phone)
               ->setCompany            ($cu->shipping->company)
 
+              ->setStreet             ($cu->billing->street1)
+/*
               ->setData               (['street' => [
-                                        $cu->shipping->street1, 
-                                        $cu->shipping->street2, 
-                                        $cu->shipping->street3,
+                                        $cu->billing->street1, 
+                                        $cu->billing->street2, 
+                                        $cu->billing->street3,
                                       ]])
-
-//              ->setIsDefaultBilling   ('1')
+*/
+              ->setIsDefaultBilling   ('0')
               ->setIsDefaultShipping  ('1')
               ->setSaveInAddressBook  ('1');
 
@@ -169,3 +172,5 @@
 
       if (! $conn) break;
   }
+
+  shell_exec("cd ".MAGENTO." && php -f flushAllCaches.php");
