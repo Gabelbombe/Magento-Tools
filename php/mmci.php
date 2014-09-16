@@ -79,7 +79,6 @@
 
       echo "\tBilling Address: {$cu->billing->postal}\n";
 
-/*
       // Set biilling address
       $regionModel = Mage::getModel('directory/region')
                          ->loadByCode(
@@ -88,7 +87,6 @@
                          );
 
       $rid = $regionModel->getId();
-*/
 
       $address->setCustomerId         ($customer->getId())
               ->setFirstname          ($customer->getFirstname())
@@ -96,7 +94,7 @@
               ->setLastname           ($customer->getLastname())
 
               ->setCompany            ($cu->billing->company)
-//              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
+              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
               ->setStreet             ($cu->billing->street1)
 /*
               ->setData               (['street' => [
@@ -106,7 +104,7 @@
                                       ]])
 */
               ->setCity               ($cu->billing->city)
-              ->setState              ($cu->billing->state)
+              ->setRegion             ($cu->billing->state)
               ->setPostcode           ($cu->billing->postal)
 
               ->setTelephone          ($cu->customer->phone)
@@ -121,7 +119,7 @@
       catch (Exception $e) {
         Zend_Debug::dump($e->getMessage());
       }
-/*
+
       echo "\tShipping Address: {$cu->shipping->postal}\n";
 
       // Set shipping address
@@ -139,17 +137,17 @@
               ->setLastname           ($customer->getLastname())
               ->setCompany            ($cu->shipping->company)
 
-//              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
+              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
               ->setStreet             ($cu->shipping->street1)
-
+/*
               ->setData               (['street' => [
                                         $cu->shipping->street1, 
                                         $cu->shipping->street2, 
                                         $cu->shipping->street3,
                                       ]])
-
+*/
               ->setCity               ($cu->shipping->city)
-              ->setState              ($cu->shipping->state)
+              ->setRegion             ($cu->shipping->state)
               ->setPostcode           ($cu->shipping->postal)
 
               ->setTelephone          ($cu->customer->phone)
@@ -163,15 +161,15 @@
       catch (Exception $e) {
         Zend_Debug::dump($e->getMessage());
       }
-*/
+
     $customerAddress = [];
     foreach ($customer->getAddresses() AS $address)
        $customerAddress = $address->toArray();
 
-    print_r($customerAddress, 1);
+      echo "Entered customer: ";
+      print_r($customerAddress, 1);
 
     }
-
 
     $conn = $conn->getCustomers()->set('cu');
 
