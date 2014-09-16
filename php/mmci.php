@@ -88,6 +88,8 @@
 
       $rid = $regionModel->getId();
 
+      $address  = Mage::getModel("customer/address");
+
       $address->setCustomerId         ($customer->getId())
               ->setFirstname          ($customer->getFirstname())
               ->setMiddleName         ($customer->getMiddlename())
@@ -130,6 +132,8 @@
                          );
 
       $rid = $regionModel->getId();
+
+      $address  = Mage::getModel("customer/address");
 
       $address->setCustomerId         ($customer->getId())
               ->setFirstname          ($customer->getFirstname())
