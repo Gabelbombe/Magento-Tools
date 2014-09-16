@@ -25,7 +25,7 @@
 
   require_once MAGENTO . '/classes/pdoBinder.php';
 
-  exec ("echo '' > /tmp/dupplicates.txt");
+  exec ("echo '' > /tmp/duplicates.txt");
 
   $conn  = New \Connection();
   $conn  = $conn->setTotals()->chunk()->getCustomers()->set('cu');
@@ -167,7 +167,7 @@
           Zend_Debug::dump($e->getMessage());
         }
 
-        echo "\tCountry Origin:   {$cu->billing->countryName}\n\n";
+        echo "\tCountry Origin:   {$cu->billigng->countryName}\n\n";
         echo "\tClients remaing:  {$conn->left()}/{$total}\n";
 
       } else {
