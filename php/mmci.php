@@ -57,7 +57,7 @@
                  ->setLastname      ($cu->customer->lastname)
                  ->setSuffix        ($cu->customer->suffix)
                  ->setEmail         ($cu->customer->email)
-                 ->setCountryId     ($cu->billing->countryId);
+                 ->setCountryId     ('US');
 
       } else {
        // do something here for existing customers
