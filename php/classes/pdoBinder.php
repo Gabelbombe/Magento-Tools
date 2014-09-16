@@ -174,19 +174,23 @@ Class Connection
                 // Billing Address
                 $res = $this->dbh->prepare(
                     'SELECT 
-                        id,
-                        company,
-                        street1,
-                        street2,
-                        street3,
-                        city,
-                        state,
-                        postal_code AS postal,
-                        country_id  AS countryId
-                    FROM 
-                        wds_address 
-                    WHERE 
-                        id = :id'
+                        wda.id,
+                        wda.company,
+                        wda.street1,
+                        wda.street2,
+                        wda.street3,
+                        wda.city,
+                        wda.state,
+                        wda.postal_code AS postal,
+                        zcc.code AS countryId,
+                        zcc.name AS countryName
+                     FROM 
+                        wds_address wda,
+                        zc_country zcc
+                     WHERE 
+                        wda.country_id = zcc.id
+                     AND
+                        wda.id = :id'
                 );
 
                 $res->bindParam(':id',  $object->billing, PDO::PARAM_INT);
@@ -197,19 +201,23 @@ Class Connection
                 // Shipping Address
                 $res = $this->dbh->prepare(
                     'SELECT 
-                        id,
-                        company,
-                        street1,
-                        street2,
-                        street3,
-                        city,
-                        state,
-                        postal_code AS postal,
-                        country_id  AS countryId
+                        wda.id,
+                        wda.company,
+                        wda.street1,
+                        wda.street2,
+                        wda.street3,
+                        wda.city,
+                        wda.state,
+                        wda.postal_code AS postal,
+                        zcc.code AS countryId,
+                        zcc.name AS countryName
                      FROM 
-                        wds_address 
+                        wds_address wda,
+                        zc_country zcc
                      WHERE 
-                        id = :id'
+                        wda.country_id = zcc.id
+                     AND
+                        wda.id = :id'
                 );
 
                 $res->bindParam(':id',  $object->shipping, PDO::PARAM_INT);
