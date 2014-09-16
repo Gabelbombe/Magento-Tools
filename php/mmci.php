@@ -80,6 +80,7 @@
 
       echo "\tBilling Address: {$cu->billing->postal}\n";
 
+/*
       // Set biilling address
       $regionModel = Mage::getModel('directory/region')
                          ->loadByCode(
@@ -88,6 +89,7 @@
                          );
 
       $rid = $regionModel->getId();
+*/
 
       $address->setCustomerId         ($customer->getId())
               ->setFirstname          ($customer->getFirstname())
@@ -95,8 +97,7 @@
               ->setLastname           ($customer->getLastname())
 
               ->setCompany            ($cu->billing->company)
-            
-              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
+//              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
               ->setStreet             ($cu->billing->street1)
 /*
               ->setData               (['street' => [
@@ -122,7 +123,7 @@
       }
 
       echo "\tShipping Address: {$cu->shipping->postal}\n";
-
+/*
       // Set shipping address
       $regionModel = Mage::getModel('directory/region')
                          ->loadByCode(
@@ -131,14 +132,14 @@
                          );
 
       $rid = $regionModel->getId();
-
+*/
       $address->setCustomerId         ($customer->getId())
               ->setFirstname          ($customer->getFirstname())
               ->setMiddleName         ($customer->getMiddlename())
               ->setLastname           ($customer->getLastname())
               ->setCompany            ($cu->shipping->company)
-            
-              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
+
+//              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
               ->setStreet             ($cu->shipping->street1)
 /*
               ->setData               (['street' => [
