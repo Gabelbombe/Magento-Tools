@@ -253,6 +253,11 @@ Class Connection
         return $this->map[$this->slice];
     }
 
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
     public function set($type)
     {
         $this->$type = $this->map[$this->slice];
