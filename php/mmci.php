@@ -48,9 +48,9 @@
 
         echo "\nAdding: {$$cu->customer->firstname} {$cu->customer->lastname}\n\n";
 
-        $customer->setWebsiteId($wid)
+        $customer->setWebsiteId($webid)
                  ->setStore($store)
-                 //->setGroupId(2)
+                 ->setGroupId(2)
                  ->setPrefix        ($cu->customer->prefix)
                  ->setFirstname     ($cu->customer->firstname)
                  ->setMiddleName    ($cu->customer->middlename)
