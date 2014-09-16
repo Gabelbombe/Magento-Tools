@@ -138,11 +138,11 @@
               ->setTelephone          ($cu->shipping->phone)
               ->setCompany            ($cu->shipping->company)
 
-              ->setData               ('street' => [
+              ->setData               (['street' => [
                                         $cu->shipping->street1, 
                                         $cu->shipping->street2, 
                                         $cu->shipping->street3,
-                                      ])
+                                      ]])
 
 //              ->setIsDefaultBilling   ('1')
               ->setIsDefaultShipping  ('1')
