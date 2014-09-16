@@ -167,16 +167,6 @@
         Zend_Debug::dump($e->getMessage());
       }
 
-    $customerAddress = [];
-print_r(Mage::getModel('customer/address')->load($customer->getId()));
-die;
-
-    foreach ($customer->getAddresses() AS $address)
-       $customerAddress = $address->toArray();
-
-      echo "Entered customer: ";
-      print_r($customerAddress, 1);
-
     }
 
     $conn = $conn->getCustomers()->set('cu');
