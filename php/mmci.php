@@ -168,7 +168,7 @@
       }
 
     $customerAddress = [];
-print_r($customer->getAddresses());
+print_r($customer);
 die;
 
     foreach ($customer->getAddresses() AS $address)
