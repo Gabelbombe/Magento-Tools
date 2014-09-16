@@ -57,7 +57,7 @@
                  ->setLastname      ($cu->customer->lastname)
                  ->setSuffix        ($cu->customer->suffix)
                  ->setEmail         ($cu->customer->email)
-                 ->setCountryId     ('US');
+                 ->setCountryId     ($cu->billing->countryId);
 
       } else {
        // do something here for existing customers
@@ -98,7 +98,7 @@
 
               ->setCompany            ($cu->billing->company)
               ->setRegionId           ($rid)
-              ->setStreet             ($cu->billing->street1)
+              ->setStreet             ([$cu->billing->street1, $cu->billing->street2, $cu->billing->street3])
 /*
               ->setData               (['street' => [
                                         $cu->billing->street1, 
@@ -143,7 +143,7 @@
               ->setCompany            ($cu->shipping->company)
 
               ->setRegionId           ($rid)
-              ->setStreet             ($cu->shipping->street1)
+              ->setStreet             ([$cu->shipping->street1, $cu->shipping->street2, $cu->shipping->street3])
 /*
               ->setData               (['street' => [
                                         $cu->shipping->street1, 
