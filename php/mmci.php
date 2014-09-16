@@ -59,11 +59,12 @@
                  ->setSuffix        ($cu->customer->suffix)
                  ->setEmail         ($cu->customer->email);
 
+/*
         // generate a new password
         $customer->changePassword(
           $customer->generatePassword()
         );
-
+*/
       } else {
        // do something here for existing customers
         echo "\n---> Found an existing customer: $cu->customer->email\n\n";
