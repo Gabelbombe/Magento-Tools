@@ -58,21 +58,16 @@
                  ->setLastname      ($cu->customer->lastname)
                  ->setSuffix        ($cu->customer->suffix)
                  ->setEmail         ($cu->customer->email);
-/*
-        // generate a new password
-        $customer->changePassword(trim("
-          I thought what I'd do was, I'd pretend I was one of those deaf-mutes.
-        "));
-*/
+
       } else {
        // do something here for existing customers
-        echo "\n---> Found an existing customer: $cu->customer->email\n\n";
+        echo "\n---> Found an existing customer: {$cu->customer->email}\n\n";
       }
 
       try 
       {
         // ?? $customer->save()->setConfirmation(null)->save();
-        $customer->setConfirmation(null)
+        $customer->save()->setConfirmation(null)
                  ->save();
 
         // save successful, send new password
@@ -83,7 +78,7 @@
         Zend_Debug::dump($e->getMessage());
       }
 
-      echo "\tAdding Billing Address\n";
+      echo "\tBilling Address: {$cu->billing->postal}\n";
 
       // Set biilling address
       $regionModel = Mage::getModel('directory/region')
@@ -126,7 +121,7 @@
         Zend_Debug::dump($e->getMessage());
       }
 
-      echo "\tAdding Shipping Address\n";
+      echo "\tShipping Address: {$cu->shipping->postal}\n";
 
       // Set shipping address
       $regionModel = Mage::getModel('directory/region')
@@ -168,6 +163,7 @@
         Zend_Debug::dump($e->getMessage());
       }
     }
+
 
     $conn = $conn->getCustomers()->set('cu');
 
