@@ -13,19 +13,25 @@
    * Requires access to a source database
    */
 
+  ini_set('display_startup_errors',1);
+  ini_set('display_errors',1);
+  error_reporting(-1);
+
   define('MAGENTO', realpath(dirname(__FILE__)));
   require_once MAGENTO . '/../../app/Mage.php';
 
   umask(0);
   Mage::app();
 
-  require_once 'classes/pdoBinder.php';
+  require_once MAGENTO . '/classes/pdoBinder.php';
 
   $customer = Mage::getModel("customer/customer");
   $address  = Mage::getModel("customer/address");
 
   $conn = New \Connection();
   $conn = $conn->setTotals()->chunk()->getCustomers()->set('cu');
+
+  echo "Starting\n";
 
   while(true)
   {

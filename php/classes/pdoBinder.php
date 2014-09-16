@@ -1,6 +1,6 @@
 <?php
 
-class PDOConfig Extends PDO 
+Class PDOConfig Extends PDO 
 {
     private $engine;
     private $host;
@@ -258,5 +258,3 @@ Class Connection
             : false;
     }
 }
-
-  print_r($conn->cu); die;
