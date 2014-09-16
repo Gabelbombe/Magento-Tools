@@ -25,6 +25,8 @@
 
   require_once MAGENTO . '/classes/pdoBinder.php';
 
+  exec ("echo '' > /tmp/dupplicates.txt");
+
   $conn  = New \Connection();
   $conn  = $conn->setTotals()->chunk()->getCustomers()->set('cu');
 
@@ -75,7 +77,7 @@
           Zend_Debug::dump($e->getMessage());
         }
 
-        echo "\tBilling Address: {$cu->billing->postal}\n";
+        echo "\tBilling Address:  {$cu->billing->postal}\n";
 
         // Set billing address
         $regionModel = Mage::getModel('directory/region')
@@ -166,9 +168,17 @@
           Zend_Debug::dump($e->getMessage());
         }
 
+        echo "\tCountry Origin:   {$cu->billing->countryName}\n";
+
       } else {
-       // do something here for existing customers
+
+        // do something here for existing customers
         echo "\n---> Found an existing customer: {$cu->customer->email}\n\n";
+
+          $blob = json_encode($cu); // log for later I guess....
+
+        exec ("echo '{$cu->customer->email} :: {$blob}' >> /tmp/duplicates.txt");
+
       }
       $conn->decrement(); // --
     }
@@ -178,4 +188,5 @@
       if (! $conn) break;
   }
 
-  shell_exec("cd ".MAGENTO." && php -f flushAllCaches.php");
+  exec ('mv /tmp/duplicates.txt ' . MAGENTO);
+  exec ('cd ' . MAGENTO . ' && php -f flushAllCaches.php');
