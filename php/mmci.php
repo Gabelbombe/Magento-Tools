@@ -168,7 +168,7 @@
       }
 
     $customerAddress = [];
-print_r($customer);
+print_r(Mage::getModel('customer/address')->load($customer->getId()));
 die;
 
     foreach ($customer->getAddresses() AS $address)
