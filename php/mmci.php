@@ -25,9 +25,6 @@
 
   require_once MAGENTO . '/classes/pdoBinder.php';
 
-  $customer = Mage::getModel("customer/customer");
-  $address  = Mage::getModel("customer/address");
-
   $conn = New \Connection();
   $conn = $conn->setTotals()->chunk()->getCustomers()->set('cu');
 
@@ -37,6 +34,9 @@
   {
     foreach ($conn->cu AS $cu) 
     {
+      $customer = Mage::getModel("customer/customer");
+      $address  = Mage::getModel("customer/address");
+
       $webid    = Mage::app()->getWebsite()->getId();
       $store    = Mage::app()->getStore();
 
