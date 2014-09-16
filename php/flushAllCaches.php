@@ -1,18 +1,22 @@
 <?php
+
 date_default_timezone_set("America/Los_Angeles");
 echo "Start Cleaning all caches at ... " . date("Y-m-d H:i:s") . "\n\n";
-ini_set("display_errors", 1);
 
-require '../app/Mage.php';
-Mage::app('admin')->setUseSessionInUrl(false);
-Mage::getConfig()->init();
+  define('MAGENTO', realpath(dirname(__FILE__)));
+  require_once MAGENTO . '/../../app/Mage.php';
 
-$types = Mage::app()->getCacheInstance()->getTypes();
+    Mage::app('admin')->setUseSessionInUrl(false);
+    Mage::getConfig()->init();
 
-try {
+    $types = Mage::app()->getCacheInstance()->getTypes();
+
+try 
+{
     echo "Cleaning data cache... \n";
     flush();
-    foreach ($types as $type => $data) {
+    foreach ($types AS $type => $data) 
+    {
         echo "Removing $type ... ";
         echo Mage::app()->getCacheInstance()->clean($data["tags"]) ? "[OK]" : "[ERROR]";
         echo "\n";
