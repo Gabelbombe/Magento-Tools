@@ -76,6 +76,8 @@
         Zend_Debug::dump($e->getMessage());
       }
 
+      echo "Adding Billing Address\n";
+
       // Set biilling address
       $regionModel = Mage::getModel('directory/region')
                          ->loadByCode(
@@ -113,6 +115,8 @@
       catch (Exception $e) {
         Zend_Debug::dump($e->getMessage());
       }
+
+      echo "Adding Shipping Address\n";
 
       // Set shipping address
       $regionModel = Mage::getModel('directory/region')
