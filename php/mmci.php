@@ -47,7 +47,7 @@
       if (! $customer->getId()) 
       {
 
-        echo "\nAdding: {$$cu->customer->firstname} {$cu->customer->lastname}\n\n";
+        echo "\nAdding: {$cu->customer->firstname} {$cu->customer->lastname}\n\n";
 
         $customer->setWebsiteId($webid)
                  ->setStore($store)
