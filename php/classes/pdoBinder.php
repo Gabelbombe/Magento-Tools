@@ -14,7 +14,7 @@ Class PDOConfig Extends PDO
         $this->host     = 'localhost';
         $this->database = 'filson';
         $this->user     = 'root';
-        $this->pass     = 'm1+n3{$S*?.3/(-aK(MJg$~ld_.".G9E';
+        $this->pass     = '';
         $dns = $this->engine.':dbname='.$this->database.";host=".$this->host;
         parent::__construct( $dns, $this->user, $this->pass );
     }
@@ -70,7 +70,7 @@ Class Connection
         return $this;
     }
 
-    public function chunk($range = 3)
+    public function chunk($range = 100)
     {
         $i = $this->firstId; //2
 
