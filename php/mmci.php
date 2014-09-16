@@ -48,8 +48,7 @@
       // if customer does not already exists, by email
       if (! $customer->getId()) 
       {
-        echo "\n{$conn->left()}/{$total}\n"
-        echo "\nAdding: {$cu->customer->firstname} {$cu->customer->lastname}\n\n";
+        echo "\n{$conn->left()}/{$total}\nAdding: {$cu->customer->firstname} {$cu->customer->lastname}\n\n";
 
         $customer->setWebsiteId($webid)
                  ->setStore($store)
