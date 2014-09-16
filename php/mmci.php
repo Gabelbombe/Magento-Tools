@@ -40,7 +40,7 @@
       $webid    = Mage::app()->getWebsite()->getId();
       $store    = Mage::app()->getStore();
 
-      $customer->loadByEmail($cu->email);
+      $customer->loadByEmail($cu->customer->email);
 
       // if customer does not already exists, by email
       if (! $customer->getId()) 
