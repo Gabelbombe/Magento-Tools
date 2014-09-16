@@ -50,13 +50,14 @@
 
         $customer->setWebsiteId($webid)
                  ->setStore($store)
-                 ->setGroupId(1)    // Retail I hope (2) is Wholesaler
+                 ->setGroupId(1)    // General
                  ->setPrefix        ($cu->customer->prefix)
                  ->setFirstname     ($cu->customer->firstname)
                  ->setMiddleName    ($cu->customer->middlename)
                  ->setLastname      ($cu->customer->lastname)
                  ->setSuffix        ($cu->customer->suffix)
-                 ->setEmail         ($cu->customer->email);
+                 ->setEmail         ($cu->customer->email)
+                 ->setCountryId     ($cu->billing->countryId);
 
       } else {
        // do something here for existing customers
@@ -96,7 +97,7 @@
               ->setLastname           ($customer->getLastname())
 
               ->setCompany            ($cu->billing->company)
-              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
+              ->setRegionId           ($rid)
               ->setStreet             ($cu->billing->street1)
 /*
               ->setData               (['street' => [
@@ -141,7 +142,7 @@
               ->setLastname           ($customer->getLastname())
               ->setCompany            ($cu->shipping->company)
 
-              ->setRegionId           ($rid)            //sta  ->setCountryId          ($cid)te/province, only needed if the country is USA
+              ->setRegionId           ($rid)
               ->setStreet             ($cu->shipping->street1)
 /*
               ->setData               (['street' => [
