@@ -167,7 +167,7 @@
           Zend_Debug::dump($e->getMessage());
         }
 
-        echo "\tCountry Origin:   {$cu->billigng->countryName}\n\n";
+        echo "\tCountry Origin:   {$cu->billing->countryName}\n\n";
         echo "\tClients remaing:  {$conn->left()}/{$total}\n";
 
       } else {
