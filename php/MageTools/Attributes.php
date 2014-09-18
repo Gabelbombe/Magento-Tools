@@ -281,7 +281,8 @@ Namespace MageTools
 
 
 		/**
-		 * Temporary generic method
+		 * Generic notifications like the inbuilt FLASH method
+		 * for Magento / Laravel / Slim
 		 *
 		 * @param $info
 		 * @return $this
@@ -294,7 +295,8 @@ Namespace MageTools
 		}
 
 		/**
-		 * Temporary generic method
+		 * Semi-structured error logging based on ZEND leveling
+		 * constants.
 		 *
 		 * @param $error
 		 * @param int $level
