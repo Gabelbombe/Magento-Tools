@@ -26,7 +26,7 @@ Namespace MageTools
 
 
 		/**
-		 * Create an atribute-set.
+		 * Create an attribute-set.
 		 * For reference, see Mage_Adminhtml_Catalog_Product_SetController::saveAction().
 		 *
 		 * @param $setName
