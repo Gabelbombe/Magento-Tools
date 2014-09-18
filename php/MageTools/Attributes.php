@@ -219,6 +219,18 @@ Namespace MageTools
 				'is_filterable_in_search'       => '0',
 				'backend_type'                  => 'varchar',
 				'default_value'                 => '',
+				'is_user_defined'               => '0',
+				'is_visible'                    => '1',
+				'is_used_for_price_rules'       => '0',
+				'position'                      => '0',
+				'is_wysiwyg_enabled'            => '0',
+				'backend_model'                 => '',
+				'attribute_model'               => '',
+				'backend_table'                 => '',
+				'frontend_model'                => '',
+				'source_model'                  => '',
+				'note'                          => '',
+				'frontend_input_renderer'       => '',
 			];
 
 			// Now, overlay the incoming values on to the defaults.
