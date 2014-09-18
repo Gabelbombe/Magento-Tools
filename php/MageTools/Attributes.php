@@ -2,8 +2,7 @@
 
 Namespace // Assigning MAGE to a global namespace
 {
-	//	define('MAGENTO', realpath(dirname(dirname(__FILE__)))); 		// from clone
-	define('MAGENTO', '/Users/jondaniel/Repositories/Magento-EE');		// pathspec
+	define('MAGENTO', realpath(dirname(dirname(__FILE__))));
 	require_once MAGENTO . '/app/Mage.php';
 
 	\Mage::app();
@@ -293,13 +292,4 @@ Namespace MageTools
 			Throw New \LogicException($error);
 		}
     }
-}
-
-
-Namespace // Assigning to a global namespace
-{
-	USE \MageTools\Attributes AS Attr;
-
-	$attr = New Attr();
-	$attr->createAttributeSet('foo');
 }
