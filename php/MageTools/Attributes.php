@@ -309,7 +309,7 @@ Namespace MageTools
 
 			$this->errs[$const][] = $error;	// error baseline
 
-			if (2048 !== $level)
+			if (2048 !== $level) // we don't log E_STRICT's
 			{
 				$this->errs[$this->levels[6143]][] = $error;
 			}
