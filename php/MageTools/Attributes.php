@@ -307,8 +307,12 @@ Namespace MageTools
 				? $this->levels[$level]
 				: $this->levels[8];
 
-			$this->errs[$const][] = $error;
+			$this->errs[$const][] = $error;	// error baseline
 
+			if (2048 !== $level)
+			{
+				$this->errs[$this->levels[6143]][] = $error;
+			}
 				return $this;
 		}
     }
