@@ -18,6 +18,9 @@ Namespace MageTools
 	{
 		protected $groupName 	= null;
 
+		private   $errs			= [],
+				  $info			= [];
+
 		private	  $levels		= [				// >> push to custom err-trapper later
 			1 		=> 'E_ERROR',				// Fatal run-time errors.
 			2		=> 'E_WARNING',				// Non-fatal run-time errors.
@@ -294,11 +297,17 @@ Namespace MageTools
 		 * Temporary generic method
 		 *
 		 * @param $error
+		 * @param int $level
 		 * @return $this
 		 */
-		protected function logError($error, $level = 2)
+		protected function logError($error, $level = 8) // E_NOTICE
 		{
-			$this->errs[$level][] = $error;
+			// set baseline for notice level
+			$const = (isset($this->levels[$level]))
+				? $this->levels[$level]
+				: $this->levels[8];
+
+			$this->errs[$const][] = $error;
 
 				return $this;
 		}
