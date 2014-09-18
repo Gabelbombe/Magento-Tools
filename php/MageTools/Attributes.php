@@ -16,13 +16,23 @@ Namespace MageTools
 
 	Class Attributes
 	{
-		protected $groupName = null;
+		protected $groupName 	= null;
+
+		private	  $levels		= [				// >> push to custom err-trapper later
+			1 		=> 'E_ERROR',				// Fatal run-time errors.
+			2		=> 'E_WARNING',				// Non-fatal run-time errors.
+			4		=> 'E_PARSE',				// Compile-time parse errors.
+			8		=> 'E_NOTICE',				// Run-time notices.
+			// ..	// ..						// ..
+			2048	=> 'E_STRICT',				// Run-time notices.
+			4096	=> 'E_RECOVERABLE_ERROR',	// Catchable fatal error.
+			6143	=> 'E_ALL',					// All errors/warnings, sans of level E_STRICT
+		];
 
 		public function __construct()
 		{
 			umask(0);
         }
-
 
 		/**
 		 * Create an attribute-set.
@@ -70,9 +80,7 @@ Namespace MageTools
             // should expand in the future.
             $model->validate();
      
-            // Create the record.
-     
-            try
+            try // Create the record.
             {
                 $model->save();
             }
@@ -92,7 +100,6 @@ Namespace MageTools
      
             $this->logInfo("Set ($id) created.");
 
-
             // Load the new set with groups (mandatory).
             // Attach the same groups from the given set-ID to the new set.
             if(-1 === $copyGroupsFromID)
@@ -102,8 +109,7 @@ Namespace MageTools
                 $model->initFromSkeleton($copyGroupsFromID);
             }
      
-            // Just add a default group.
-            else
+            else // Just add a default group.
             {
                 $this->logInfo("Creating default group [{$this->groupName}] for set.");
      
@@ -121,6 +127,7 @@ Namespace MageTools
             {
                 $model->save();
             }
+
             catch(\Exception $ex)
             {
                 $this->logError("Final attribute-set with name [$setName] could not be saved: " . $ex->getMessage());
@@ -129,7 +136,7 @@ Namespace MageTools
             }
      
 			// As $modelGroup may not have been created
-            if(! isset($modelGroup) || false === ($groupID = $modelGroup->getId()))
+            if (! isset($modelGroup) || false === ($groupID = $modelGroup->getId()))
             {
                 $this->logError("Could not get ID from new group [$this->groupName].");
 
@@ -172,10 +179,10 @@ Namespace MageTools
 			if (-1 === $values)
 				$values = [];
 
-			if(-1 === $productTypes)
+			if (-1 === $productTypes)
 				$productTypes = [];
 
-			if(-1 !== $setInfo && (! isset($setInfo['SetID']) || ! isset($setInfo['GroupID'])))
+			if (-1 !== $setInfo && (! isset($setInfo['SetID']) || ! isset($setInfo['GroupID'])))
 			{
 				$this->logError("Please provide both the set-ID and the group-ID of the attribute-set if you'd like to subscribe to one.");
 
@@ -237,18 +244,19 @@ Namespace MageTools
 
 			// Build the model.
 			$model = \Mage::getModel('catalog/resource_eav_attribute');
-
 			$model->addData($data);
 
-			if($setInfo !== -1)
+			if(-1 === $setInfo)
 			{
 				$model->setAttributeSetId($setInfo['SetID']);
 				$model->setAttributeGroupId($setInfo['GroupID']);
 			}
 
-			$entityTypeID = \Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId();
-			$model->setEntityTypeId($entityTypeID);
+			$entityTypeID = \Mage::getModel('eav/entity')
+								 ->setType('catalog_product')
+								 ->getTypeId();
 
+			$model->setEntityTypeId($entityTypeID);
 			$model->setIsUserDefined(1);
 
 			try // Save
@@ -277,7 +285,7 @@ Namespace MageTools
 		 */
 		protected function logInfo($info)
 		{
-			echo "{$info}\n";
+			$this->info[] = $info;
 
 				return $this;
 		}
@@ -286,10 +294,13 @@ Namespace MageTools
 		 * Temporary generic method
 		 *
 		 * @param $error
+		 * @return $this
 		 */
-		protected function logError($error)
+		protected function logError($error, $level = 2)
 		{
-			Throw New \LogicException($error);
+			$this->errs[$level][] = $error;
+
+				return $this;
 		}
     }
 }
