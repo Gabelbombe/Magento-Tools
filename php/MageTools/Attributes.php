@@ -293,21 +293,23 @@ Namespace MageTools
 
 
 		/**
-		 * @param $attCode
-		 * @param $attributeValue
+		 * Test if attribute code/value exists in Magentog
+		 *
+		 * @param $attrCode
+		 * @param $attrValue
 		 * @return bool
 		 */
-		protected function attributeValueExists($attCode, $attributeValue)
+		protected function attributeValueExists($attrCode, $attrValue)
 		{
 			/**
 			 * @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract
 			 */
-			$attribute = Mage::getModel('catalog/resource_eav_attribute')
-							 ->loadByCode(Mage_Catalog_Model_Product::ENTITY, $attCode);
+			$attribute = \Mage::getModel('catalog/resource_eav_attribute')
+							  ->loadByCode(Mage_Catalog_Model_Product::ENTITY, $attrCode);
 
 			foreach ($attribute->getSource()->getAllOptions() AS $option)
 			{
-				if ($option['label'] == $attributeValue) return $option['value'];
+				if ($option['label'] == $attrValue) return $option['value'];
 			}
 
 			return false;
