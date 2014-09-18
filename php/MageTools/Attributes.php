@@ -92,10 +92,11 @@ Namespace MageTools
             }
      
             $this->logInfo("Set ($id) created.");
-     
+
+
             // Load the new set with groups (mandatory).
             // Attach the same groups from the given set-ID to the new set.
-            if($copyGroupsFromID !== -1)
+            if(-1 === $copyGroupsFromID)
             {
                 $this->logInfo("Cloning group configuration from existing set with ID ($copyGroupsFromID).");
                
@@ -128,7 +129,8 @@ Namespace MageTools
 	                return false;
             }
      
-            if(false === ($groupID = $modelGroup->getId()))
+			// As $modelGroup may not have been created
+            if(! isset($modelGroup) || false === ($groupID = $modelGroup->getId()))
             {
                 $this->logError("Could not get ID from new group [$this->groupName].");
 
