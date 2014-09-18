@@ -24,35 +24,44 @@
   Mage::app();
 
   require_once MAGENTO . '/classes/pdoBinder.php';
+  $log = '/tmp/duplicates.txt';
 
-  exec ("echo '' > /tmp/duplicates.txt");
+  if (! file_exists($log))
+  {
+    touch($log);
+  }
 
-  $conn  = New \Connection();
-  $conn  = $conn->setTotals()->chunk()->getCustomers()->set('cu');
+  fclose(fopen($log,'w')); // truncate
 
+  $conn  = New \Connection(2000, false);
+  $conn->setTotals()->chunk()->getCustomers();
   $total = $conn->getTotal();
 
   echo "Starting\n";
 
   while(true)
   {
-    foreach ($conn->cu AS $cu) 
+  $customers = $conn->get('cu');
+
+    if (empty($customers)) break;
+
+    foreach ($customers AS $cu)
     {
       $customer = Mage::getModel("customer/customer");
       $address  = Mage::getModel("customer/address");
 
-      $webid    = Mage::app()->getWebsite()->getId();
+      $webId    = Mage::app()->getWebsite()->getId();
       $store    = Mage::app()->getStore();
 
-      $customer->setWebsiteId($webid)
+      $customer->setWebsiteId($webId)
                ->loadByEmail($cu->customer->email);
 
       // if customer does not already exists, by email
-      if (! $customer->getId()) 
+      if (! $customer->getId())
       {
         echo "\nProcessing: {$cu->customer->firstname} {$cu->customer->lastname}\n\n";
 
-        $customer->setWebsiteId($webid)
+        $customer->setWebsiteId($webId)
                  ->setStore($store)
                  ->setGroupId(1)    // General
                  ->setPrefix        ($cu->customer->prefix)
@@ -81,11 +90,9 @@
         // Set billing address
         $regionModel = Mage::getModel('directory/region')
                            ->loadByCode(
-                              $cu->state, 
+                              $cu->billing->state,
                               $cu->billing->countryId
                            );
-
-        $rid = $regionModel->getId();
 
         $address  = Mage::getModel("customer/address");
 
@@ -95,7 +102,7 @@
                 ->setLastname           ($customer->getLastname())
                 ->setCompany            ($cu->billing->company)
 
-                ->setRegionId           ($rid)
+                ->setRegionId           ($regionModel->getId())
                 ->setCountryId          ($cu->billing->countryId)
 
                 ->setStreet             ([
@@ -109,11 +116,10 @@
                 ->setPostcode           ($cu->billing->postal)
 
                 ->setTelephone          ($cu->customer->phone)
-                ->setIsDefaultShipping  ('1')
                 ->setIsDefaultBilling   ('1')
                 ->setSaveInAddressBook  ('1');
 
-        try 
+        try
         {
           $address->save();
         }
@@ -127,11 +133,9 @@
         // Set shipping address
         $regionModel = Mage::getModel('directory/region')
                            ->loadByCode(
-                              $cu->state, 
+                              $cu->shiping->state,
                               $cu->shipping->countryId
                            );
-
-        $rid = $regionModel->getId();
 
         $address  = Mage::getModel("customer/address");
 
@@ -141,7 +145,7 @@
                 ->setLastname           ($customer->getLastname())
                 ->setCompany            ($cu->shipping->company)
 
-                ->setRegionId           ($rid)
+                ->setRegionId           ($regionModel->getId())
                 ->setCountryId          ($cu->shipping->countryId)
 
                 ->setStreet             ([
@@ -168,25 +172,24 @@
         }
 
         echo "\tCountry Origin:   {$cu->billing->countryName}\n\n";
-        echo "\tClients remaing:  {$conn->left()}/{$total}\n";
+        echo "\tClients Remain:   {$conn->left()}/{$total}\n";
 
       } else {
 
         // do something here for existing customers
         echo "\n---> Found an existing customer: {$cu->customer->email}\n\n";
 
-          $blob = json_encode($cu); // log for later I guess....
-
-        exec ("echo '{$cu->customer->email} :: {$blob}' >> /tmp/duplicates.txt");
+          // log for later I guess....
+      file_put_contents($log, "{$cu->customer->email} :: " . json_encode($cu), FILE_APPEND | LOCK_EX);
 
       }
       $conn->decrement(); // --
+
+    echo "\nFinished: {$cu->userid}\n\n";
     }
-
-    $conn = $conn->getCustomers()->set('cu');
-
-      if (! $conn) break;
+    $conn->getCustomers();
   }
 
-  exec ('mv /tmp/duplicates.txt ' . MAGENTO);
-  exec ('cd ' . MAGENTO . ' && php -f flushAllCaches.php');
+  // don't put slashes in your names, it's stupid....
+  shell_exec ('cd ' . MAGENTO . ' && php -f flushAllCaches.php');
+  rename   ($log, MAGENTO . '/' . end(explode('/', $log)));

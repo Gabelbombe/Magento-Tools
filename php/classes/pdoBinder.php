@@ -12,7 +12,7 @@ Class PDOConfig Extends PDO
     {
         $this->engine   = 'mysql';
         $this->host     = 'localhost';
-        $this->database = 'filson';
+        $this->database = '';
         $this->user     = 'root';
         $this->pass     = '';
         $dns = $this->engine.':dbname='.$this->database.";host=".$this->host;
@@ -23,19 +23,24 @@ Class PDOConfig Extends PDO
 
 Class Connection
 {
-    public  $slice      = 0;
-    public  $dec        = 0;
+    public    $slice      = 0,
+              $firstId    = 0;
 
-    private $total      = 0,
-            $firstId    = 0,
-            $lastId     = 0;
+    public    $dec        = 0;
 
-    private $map        = [];
+    private   $total      = 0,
+              $lastId     = 0;
 
-    public function __construct()
+    protected $index      = '';
+
+    private   $map        = [];
+
+    protected $dbh        = null;
+
+    public function __construct($limit = 20, $firstId = false)
     {
-        $this->dbh = New \PDOConfig();
-        $this->dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+        $this->limit   = $limit;
+        $this->firstId = $firstId;
     }
 
     public function display($type = false)
@@ -47,6 +52,8 @@ Class Connection
 
     public function setTotals()
     {
+        $this->open();
+
         $res = $this->dbh->query('SELECT count(id) AS total FROM wds_user');
         $res->execute();
 
@@ -55,12 +62,15 @@ Class Connection
             $this->total = $obj->total;
             $this->dec   = $obj->total;
 
-        $res = $this->dbh->query('SELECT id AS firstId FROM wds_user ORDER BY id ASC LIMIT 1');
-        $res->execute();
+        if (! $this->firstId)
+        {
+            $res = $this->dbh->query('SELECT id AS firstId FROM wds_user ORDER BY id ASC LIMIT 1');
+            $res->execute();
 
-        $obj = $res->fetchAll(PDO::FETCH_CLASS, 'ArrayObject') [0];
+            $obj = $res->fetchAll(PDO::FETCH_CLASS, 'ArrayObject') [0];
 
             $this->firstId = $obj->firstId;
+        }
 
         $res = $this->dbh->query('SELECT id AS lastId FROM wds_user ORDER BY id DESC LIMIT 1');
         $res->execute();
@@ -69,16 +79,19 @@ Class Connection
 
             $this->lastId = $obj->lastId;
 
+        $this->close();
+
         return $this;
     }
 
-    public function chunk($range = 100)
+    public function chunk()
     {
         $i = $this->firstId; //2
 
         while (true)
         {
-            $c = ($i + $range);
+            $c = ($i + $this->limit);
+
             if ($this->lastId < $c)
             {
                 $this->map[] = [
@@ -94,8 +107,9 @@ Class Connection
                 (int) $c
             ]; 
 
-            $i = $c++;
+            $i = ($c + 1);
         }
+        return $this;
     }
 
     public function getCustomers()
@@ -103,6 +117,8 @@ Class Connection
         if (isset($this->map[$this->slice]))
         {
             echo "\nSlice: {$this->map[$this->slice][0]}, {$this->map[$this->slice][1]}\n\n";
+
+            $this->open();
 
             $res = $this->dbh->prepare(trim(
                 'SELECT 
@@ -121,15 +137,15 @@ Class Connection
 
                 WHERE ins_by != "GUEST" AND wds_address_type_id = 1
 
-                 ORDER BY id ASC LIMIT :low, :high'
+                 ORDER BY id ASC LIMIT :low, :limit'
              ));
 
-
-            $res->bindParam(':low',  $this->map[$this->slice][0], PDO::PARAM_INT);
-            $res->bindParam(':high', $this->map[$this->slice][1], PDO::PARAM_INT);
+            $res->bindParam(':low',   $this->map[$this->slice][0], PDO::PARAM_INT);
+            $res->bindParam(':limit', $this->limit, PDO::PARAM_INT);
             $res->execute();
 
             $this->map[$this->slice] = $res->fetchAll(PDO::FETCH_OBJ);
+            $this->close();
 
             $this->getCustomerLists();
         }
@@ -140,8 +156,9 @@ Class Connection
     {
         if (isset($this->map[$this->slice]) && ! empty($this->map[$this->slice]))
         {
-            foreach ($this->map[$this->slice] AS $id => &$object)
+            foreach ($this->map[$this->slice] AS $id => $object)
             {
+                $this->open();
 
                 // General Customer Info
                 $res = $this->dbh->prepare(trim(
@@ -167,6 +184,7 @@ Class Connection
 
                 $object->customer = $res->fetchAll(PDO::FETCH_OBJ) [0];
 
+                    $this->close()->open();
 
                 // Billing Address
                 $res = $this->dbh->prepare(
@@ -195,6 +213,8 @@ Class Connection
 
                 $object->billing = $res->fetchAll(PDO::FETCH_OBJ) [0];
 
+                    $this->close()->open();
+
                 // Shipping Address
                 $res = $this->dbh->prepare(
                     'SELECT 
@@ -222,6 +242,8 @@ Class Connection
 
                 $object->shipping = $res->fetchAll(PDO::FETCH_OBJ) [0];
 
+                    $this->close()->open();
+
                 // Phone Number
                 $res = $this->dbh->prepare(
                     'SELECT 
@@ -243,6 +265,8 @@ Class Connection
                 $object->customer->phone = (isset($result [0]) && ! empty($result [0]))
                     ? $result [0]->phone
                     : null;
+
+                $this->close();
             }
         }
         return $this;
@@ -258,14 +282,24 @@ Class Connection
         return $this->total;
     }
 
-    public function set($type)
+    private function setIndex()
     {
-        $this->$type = $this->map[$this->slice];
-        $this->slice++;
+        $this->index = "{$this->limit}::{$this->slice}";
 
-        return (isset($this->map[$this->slice]) && ! empty($this->map[$this->slice])) 
-            ? $this
-            : false;
+            return $this;
+    }
+
+    public function get($type)
+    {
+        $this->$type = $this->map[$this->slice++];
+
+            unset ($this->map[($this->slice - 1)]); // oikology
+
+        $this->setIndex();
+
+        return (isset($this->$type) && ! empty($this->$type))
+            ? $this->$type
+            : [];
     }
 
     public function decrement()
@@ -276,5 +310,20 @@ Class Connection
     public function left()
     {
         return $this->dec;
+    }
+
+    private function open()
+    {
+        $this->dbh = New \PDOConfig();
+        $this->dbh->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+
+            return $this;
+    }
+
+    private function close()
+    {
+        unset($this->dbh);
+
+            return $this;
     }
 }
