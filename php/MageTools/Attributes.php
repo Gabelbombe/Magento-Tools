@@ -251,16 +251,16 @@ Namespace MageTools
 
 			if(-1 === $setInfo)
 			{
-				$model->setAttributeSetId($setInfo['SetID']);
-				$model->setAttributeGroupId($setInfo['GroupID']);
+				$model->setAttributeSetId($setInfo['SetID'])
+					  ->setAttributeGroupId($setInfo['GroupID']);
 			}
 
 			$entityTypeID = \Mage::getModel('eav/entity')
 								 ->setType('catalog_product')
 								 ->getTypeId();
 
-			$model->setEntityTypeId($entityTypeID);
-			$model->setIsUserDefined(1);
+			$model->setEntityTypeId($entityTypeID)
+				  ->setIsUserDefined(1);
 
 			try // Save
 			{
@@ -280,6 +280,69 @@ Namespace MageTools
 		}
 
 
+		/**
+		 * @param $argumentAttribute
+		 * @param $argumentValue
+		 * @return bool
+		 */
+		protected function attributeValueExists($argumentAttribute, $argumentValue)
+		{
+			$attributeModel       = \Mage::getModel('eav/entity_attribute');
+			$attributeOptionModel = \Mage::getModel('eav/entity_attribute_source_table') ;
+
+			$attributeCode        = $attributeModel->getIdByCode('catalog_product', $argumentAttribute);
+			$attribute     		  = $attributeModel->load($attributeCode);
+
+				$attributeOptionModel->setAttribute($attribute);
+
+			foreach($attributeOptionModel->getAllOptions(false) AS $option)
+			{
+				if ($option['label'] == $argumentValue) return $option['value'];
+			}
+
+			return false;
+		}
+
+		/**
+		 * @param $argumentAttribute
+		 * @param $argumentValue
+		 * @return bool
+		 */
+		protected function addAttributeValue($argumentAttribute, $argumentValue)
+		{
+			$attributeModel = \Mage::getModel('eav/entity_attribute');
+	
+			$attributeCode  = $attributeModel->getIdByCode('catalog_product', $argumentAttribute);
+			$attribute   	= $attributeModel->load($attributeCode);
+	
+			if(! $this->attributeValueExists($argumentAttribute, $argumentValue))
+			{
+				$value['option'] = [
+					$argumentValue,
+					$argumentValue,
+				];
+	
+				$result = [
+					'value' => $value
+				];
+	
+				$attribute->setData('option', $result)
+						  ->save();
+			}
+	
+			$attributeOptionModel = \Mage::getModel('eav/entity_attribute_source_table');
+
+				$attributeOptionModel->setAttribute($attribute);
+			
+			foreach($attributeOptionModel->getAllOptions(false) as $option)
+			{
+				if ($option['label'] == $argumentValue) return $option['value'];
+			}
+
+			return false;
+		}
+		
+		
 		/**
 		 * Generic notifications like the inbuilt FLASH method
 		 * for Magento / Laravel / Slim
