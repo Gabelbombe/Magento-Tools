@@ -74,14 +74,14 @@ Namespace MageTools
             // We don't currently support groups, or more than one level. See
             // Mage_Adminhtml_Catalog_Product_SetController::saveAction().
             $this->logInfo("Creating vanilla attribute-set with name [$setName].");
-     
-            $model->setAttributeSetName($setName);
-     
-            // We suspect that this isn't really necessary since we're just
-            // initializing new sets with a name and nothing else, but we do
-            // this for the purpose of completeness, and of prevention if we
-            // should expand in the future.
-            $model->validate();
+
+
+			// We suspect that this isn't really necessary since we're just
+			// initializing new sets with a name and nothing else, but we do
+			// this for the purpose of completeness, and of prevention if we
+			// should expand in the future.
+            $model->setAttributeSetName($setName)
+			      ->validate();
      
             try // Create the record.
             {
@@ -117,8 +117,8 @@ Namespace MageTools
                 $this->logInfo("Creating default group [{$this->groupName}] for set.");
      
                 $modelGroup = \Mage::getModel('eav/entity_attribute_group');
-                $modelGroup->setAttributeGroupName($this->groupName);
-                $modelGroup->setAttributeSetId($id);
+                $modelGroup->setAttributeGroupName($this->groupName)
+                		   ->setAttributeSetId($id);
      
                 // This is optional, and just a sorting index in the case of
                 // multiple groups.
@@ -293,23 +293,21 @@ Namespace MageTools
 
 
 		/**
-		 * @param $argumentAttribute
-		 * @param $argumentValue
+		 * @param $attCode
+		 * @param $attributeValue
 		 * @return bool
 		 */
-		protected function attributeValueExists($argumentAttribute, $argumentValue)
+		protected function attributeValueExists($attCode, $attributeValue)
 		{
-			$attributeModel       = \Mage::getModel('eav/entity_attribute');
-			$attributeOptionModel = \Mage::getModel('eav/entity_attribute_source_table') ;
+			/**
+			 * @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract
+			 */
+			$attribute = Mage::getModel('catalog/resource_eav_attribute')
+							 ->loadByCode(Mage_Catalog_Model_Product::ENTITY, $attCode);
 
-			$attributeCode        = $attributeModel->getIdByCode('catalog_product', $argumentAttribute);
-			$attribute     		  = $attributeModel->load($attributeCode);
-
-				$attributeOptionModel->setAttribute($attribute);
-
-			foreach($attributeOptionModel->getAllOptions(false) AS $option)
+			foreach ($attribute->getSource()->getAllOptions() AS $option)
 			{
-				if ($option['label'] == $argumentValue) return $option['value'];
+				if ($option['label'] == $attributeValue) return $option['value'];
 			}
 
 			return false;

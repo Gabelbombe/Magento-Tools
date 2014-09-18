@@ -77,7 +77,7 @@
    *
    * @return int|false
    */
-  $createAttribute = function createAttribute($labelText, $attributeCode, $values = -1, $productTypes = -1, $setInfo = -1, $options = -1)
+  $createAttribute = function ($labelText, $attributeCode, $values = -1, $productTypes = -1, $setInfo = -1, $options = -1)
   {
 
       $labelText = trim($labelText);
@@ -206,7 +206,7 @@
       // return $id;
   };
 
-  $getAttributeCsv = function getAttributeCsv() USE ($fileName)
+  $getAttributeCsv = function () USE ($fileName)
   {
       // $csv = array_map("str_getcsv", file($fileName,FILE_SKIP_EMPTY_LINES));
       $file = fopen($fileName,"r");
