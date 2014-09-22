@@ -23,27 +23,39 @@
   umask(0);
   Mage::app();
 
-  require_once MAGENTO . '/MageTools/pdoBinder.php';
+  require_once MAGENTO . '/classes/pdoBinder.php';
   $log = '/tmp/duplicates.txt';
 
   if (! file_exists($log))
   {
-    touch($log);
+	  touch($log);
   }
 
   fclose(fopen($log,'w')); // truncate
 
-  $conn  = New \Connection(2000, false);
+
+  // get last customer by customers collection
+  $collection = Mage::getModel('customer/customer')
+                    ->getCollection()
+                    ->addAttributeToSelect('*')
+                    ->addAttributeToSort('entity_id','desc')
+                    ->setPageSize(1);
+
+  $email = $collection->getFirstItem()->getEmail();
+
+
+  echo "Last email found was: {$email}\nStarting\n";
+
+
+  $conn  = New \Connection(2000, $email);
   $conn->setTotals()->chunk()->getCustomers();
   $total = $conn->getTotal();
 
-  echo "Starting\n";
-
   while(true)
   {
-  $customers = $conn->get('cu');
+	$customers = $conn->get('cu');
 
-    if (empty($customers)) break;
+	  if (empty($customers)) break;
 
     foreach ($customers AS $cu)
     {
@@ -180,16 +192,16 @@
         echo "\n---> Found an existing customer: {$cu->customer->email}\n\n";
 
           // log for later I guess....
-      file_put_contents($log, "{$cu->customer->email} :: " . json_encode($cu), FILE_APPEND | LOCK_EX);
+		  file_put_contents($log, "{$cu->customer->email} :: " . json_encode($cu), FILE_APPEND | LOCK_EX);
 
       }
       $conn->decrement(); // --
 
-    echo "\nFinished: {$cu->userid}\n\n";
+	echo "\nFinished: {$cu->userid}\n\n";
     }
     $conn->getCustomers();
   }
 
   // don't put slashes in your names, it's stupid....
   shell_exec ('cd ' . MAGENTO . ' && php -f flushAllCaches.php');
-  rename   ($log, MAGENTO . '/' . end(explode('/', $log)));
+  rename 	 ($log, MAGENTO . '/' . end(explode('/', $log)));
