@@ -4,6 +4,7 @@ Namespace // Assigning MAGE to a global namespace
 {
     define('MAGENTO', realpath(dirname(dirname(__DIR__))) . '/Magento');
     require_once MAGENTO . '/app/Mage.php';
+
     \Mage::app();
 }
 
@@ -11,7 +12,8 @@ Namespace MageTools
 {
     Class AttributeGenerator
     {
-        private $tablePrefix    = '';
+        private $tablePrefix    = '',
+                $storeId        = 0;
 
         public function bootstrap()
         {
@@ -24,7 +26,6 @@ Namespace MageTools
             $maintenanceFile = 'maintenance.flag';
 
             #Varien_Profiler::enable();
-
             \Mage::setIsDeveloperMode(true);
 
             ini_set('display_errors', 1);
@@ -38,30 +39,36 @@ Namespace MageTools
          
             \Mage::init($mageRunCode, $mageRunType);
 
+            $this->tablePrefix = \Mage::getConfig()
+                                      ->getTablePrefix();
+
+            /*
+             * Wrong ?
+             *
+             * $this->storeId     = \Mage::app()
+             *                          ->getStore()
+             *                          ->getStoreId();
+             */
+
             return $mageFilename;
         }
 
         protected function getOptionArrayForAttribute($attribute)
         {
-
-            $prefix = \Mage::getConfig()->getTablePrefix();
             $read   = \Mage::getModel('core/resource')->getConnection('core_read');
             $select = $read->select()
-                           ->from("{$prefix}eav_attribute_option")
-                           ->join("{$prefix}eav_attribute_option_value","{$prefix}eav_attribute_option.option_id={$prefix}eav_attribute_option_value.option_id")
+                           ->from("{$this->tablePrefix}eav_attribute_option")
+                           ->join("{$this->tablePrefix}eav_attribute_option_value","{$this->tablePrefix}eav_attribute_option.option_id={$this->tablePrefix}eav_attribute_option_value.option_id")
                            ->where('attribute_id=?',$attribute->getId())
-                           ->where('store_id=0')
-                           ->order("{$prefix}eav_attribute_option_value.option_id");
+                           ->where("store_id={$this->storeId}")
+                           ->order("{$this->tablePrefix}eav_attribute_option_value.option_id");
          
             $query = $select->query();
 
             $values = [];
-            foreach($query->fetchAll() AS $rows)
-            {
-                $values[] = $rows['value'];
-            }
-         
-            //$values = ['#f00000','abc123'];
+
+            foreach($query->fetchAll() AS $rows) $values[] = $rows['value'];
+
             return [
                 'values' => $values,
             ];
@@ -93,8 +100,7 @@ Namespace MageTools
                 'is_user_defined'               => 'user_defined',
                 'default_value'                 => 'default',
                 'is_unique'                     => 'unique',
-                'is_global'                     => 'global',
-            ]; 
+            ];
         }
          
         public function getMigrationScriptForAttribute($code)
@@ -104,66 +110,66 @@ Namespace MageTools
                       ->loadByCode('catalog_product',$code);
 
             //get a map of "real attribute properties to properties used in setup resource array
-            $real_to_setup_key_legend = $this->getKeyLegend();
+            $setupLegendKey = $this->getKeyLegend();
          
             //swap keys from above
-            $data = $m->getData();
-            $keys_legend = array_keys($real_to_setup_key_legend);
-            $new_data    = [];
- 
-            foreach($data as $key=>$value)
-            {
-                if(in_array($key,$keys_legend)) $key = $real_to_setup_key_legend[$key];
+            $data       = $m->getData();
+            $keysLegend = array_keys($setupLegendKey);
+            $newData    = [];
 
-                $new_data[$key] = $value;
+            foreach ($data AS $key => $value)
+            {
+                if (in_array($key, $keysLegend)) $key = $setupLegendKey[$key];
+
+                $newData[$key] = $value;
             }
 
             //unset items from model that we don't need and would be discarded by
             //resource script anyways
 
-            if (! isset($new_data['attribute_code']))
+            if (! isset($newData['attribute_code']))
             {
                 echo "//WARNING, attribute_code not found. " . "\n";
                 return false;
             }
 
-            $attribute_code = $new_data['attribute_code'];
+            $attrCode = $newData['attribute_code'];
 
             unset(
-                $new_data['attribute_id'], 
-                $new_data['attribute_code'], 
-                $new_data['entity_type_id']
+                $newData['attribute_id'], 
+                $newData['attribute_code'], 
+                $newData['entity_type_id']
             );
 
             //chuck a few warnings out there for things that were a little murky
-            if($new_data['attribute_model'])
+            if($newData['attribute_model'])
             {
                 echo "//WARNING, value detected in attribute_model.  We've never seen a value there before and this script doesn't handle it.  Caution, etc. " . "\n";
             }
          
-            if($new_data['is_used_for_price_rules'])
+            if($newData['is_used_for_price_rules'])
             {
                 echo "//WARNING, non false value detected in is_used_for_price_rules.  The setup resource migration scripts may not support this (per 1.7.0.1)" . "\n";
             }
-         
-         
-            //load values for attributes (if any exist)
-            $new_data['option'] = $this->getOptionArrayForAttribute($m);
-         
+
+            // require 'sort.php';
+            $newData['option'] = (empty($custom))
+                ? $this->getOptionArrayForAttribute($m) //load values for attributes (if any exist)
+                : $custom;
+
+
             //get text for script
-            $array = var_export($new_data, true);
+            $array = var_export($newData, true); // push as array
          
-            $script = "<?php
-                        if(! (\$this instanceof Mage_Catalog_Model_Resource_Setup))
-                        {
-                            throw new Exception(\"Resource Class needs to inherit from \" .
-                            \"Mage_Catalog_Model_Resource_Setup for this to work\");
-                        }
+            $script = "\n\n<?php
+if(! (\$this instanceof Mage_Catalog_Model_Resource_Setup))
+{
+    Throw New \\Exception(\"Resource Class needs to inherit from \" .
+    \"Mage_Catalog_Model_Resource_Setup for this to work\");
+}
                          
-                        \$attr = $array;
-                        \$this->addAttribute('catalog_product','$attribute_code',\$attr);
-                         
-                        ";
+\$attr = $array;
+\$this->addAttribute('catalog_product','$attrCode',\$attr);\n\n";
 
             return $script;
         }
@@ -185,6 +191,7 @@ Namespace MageTools
             }
 
             $script = $this->getMigrationScriptForAttribute($code);
+
             echo $script;
         }
     }
@@ -192,7 +199,14 @@ Namespace MageTools
 
 Namespace
 {
-    $attrGenerator = New \MageTools\AttributeGenerator();
+    USE \MageTools\AttributeGenerator AS Generator;
+
+    // phpstorm complains
+    $argv = (isset($argv) && ! empty($argv))
+        ? $argv
+        : [];
+
+    $attrGenerator = New Generator();
 
     $attrGenerator->bootstrap();
     $attrGenerator->main($argv);

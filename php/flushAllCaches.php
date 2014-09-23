@@ -3,8 +3,8 @@
 date_default_timezone_set("America/Los_Angeles");
 echo "Start Cleaning all caches at ... " . date("Y-m-d H:i:s") . "\n\n";
 
-  define('MAGENTO', realpath(dirname(__FILE__)));
-  require_once MAGENTO . '/../../app/Mage.php';
+    define('MAGENTO', realpath(dirname(dirname(__DIR__))) . '/Magento');
+    require_once MAGENTO . '/app/Mage.php';
 
     Mage::app('admin')->setUseSessionInUrl(false);
     Mage::getConfig()->init();

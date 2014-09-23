@@ -1,8 +1,7 @@
 <?php
-
 Namespace // Assigning MAGE to a global namespace
 {
-    define('MAGENTO', realpath(dirname(dirname(__FILE__))));
+    define('MAGENTO', realpath(dirname(dirname(dirname(__DIR__)))) . '/Magento');
     require_once MAGENTO . '/app/Mage.php';
 
     \Mage::app();
@@ -392,5 +391,47 @@ Namespace MageTools
             }
                 return $this;
         }
+
+
+        ////////
+        public function getAttributeCsv($fileName)
+        {
+            // $csv = array_map("str_getcsv", file($fileName,FILE_SKIP_EMPTY_LINES));
+            $file = fopen($fileName,"r");
+
+            while(! feof($file)) $csv[] = fgetcsv($file, 0, '|');
+
+            $keys = array_shift($csv);
+
+            foreach ($csv AS $inc => $row) $csv[$inc] = array_combine($keys, $row);
+
+            foreach($csv AS $row)
+            {
+                $labelText     = $row['frontend_label'];
+                $attributeCode = $row['attribute_code'];
+
+                // add this to createAttribute parameters and call "addAttributeValue" function.
+                $options = (! empty($row['_options']))
+                    ? explode(";", $row['_options'])
+                    : -1;
+
+                $productTypes = (! empty($row['apply_to']))
+                    ? explode(",", $row['apply_to'])
+                    : -1;
+
+                unset(
+                    $row['frontend_label'],
+                    $row['attribute_code'],
+                    $row['_options'],
+                    $row['apply_to'],
+                    $row['attribute_id'],
+                    $row['entity_type_id'],
+                    $row['search_weight']
+                );
+
+                $this->createAttribute($labelText, $attributeCode, $row, $productTypes, -1, $options);
+            }
+        }
+
     }
 }
