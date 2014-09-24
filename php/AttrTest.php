@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * REF: http://m.blog.csdn.net/blog/terry_water/17450231
+ * REF: http://www.webguys.de/magento/eav-attribute-setup/
+ */
+
 Namespace // Assigning MAGE to a global namespace
 {
     define('MAGENTO', realpath(dirname(dirname(__DIR__))) . '/Magento');
