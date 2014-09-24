@@ -23,7 +23,7 @@
   umask(0);
   Mage::app();
 
-  require_once MAGENTO . '/classes/pdoBinder.php';
+  require_once MAGENTO . '/MageTools/Connection.php';
   $log = '/tmp/duplicates.txt';
 
   if (! file_exists($log))

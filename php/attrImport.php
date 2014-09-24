@@ -30,6 +30,8 @@
     require 'sort.php';
     if (! empty($attrColors))
     {
+        echo count($attrColors); die;
+
         $attributeModel = \Mage::getModel('eav/entity_attribute')->getCollection()->addFieldToFilter('frontend_label', 'Color');
         $attributeCode  = $attributeModel->getData('attribute_code') [0]['attribute_code'];
 
