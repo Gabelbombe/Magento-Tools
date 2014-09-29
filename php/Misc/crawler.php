@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting(-1);
 
-define ('ZR_ADMIN_URL',   'https://filsonadmin.zaneray.com:447/za/ZCADM');
+define ('ZR_ADMIN_URL',   '');
 define ('FS_USER',        '');
 define ('FS_PASS',        '');
 
@@ -17,7 +17,8 @@ $getAttribute = function ($obj, $attr)
         : false;
 };
 
-// Get new session ID via login form request
+    echo "Get new session ID via login form request\n";
+
 $ch = curl_init();
 $payload    = http_build_query([
     'PAGE'      => 'LOGON_USER',
@@ -33,8 +34,8 @@ curl_setopt_array($ch, [
 curl_exec($ch);
 curl_close($ch);
 
+    echo "Login via POST request\n";
 
-// Login via POST request
 $ch = curl_init();
 $payload = http_build_query([
     'WDS_USER.USERID'       => FS_USER,
@@ -59,9 +60,13 @@ curl_setopt_array($ch, [
 curl_exec($ch);
 curl_close($ch);
 
+echo "Dumpfile exists? ";
+
 if (! file_exists('/tmp/html.json'))
 {
-    // get links list
+    echo "No...\n";
+    echo "Obtaining links list\n";
+
     $ch = curl_init();
     $payload = http_build_query([
         'ACTIVE'                => 0,
@@ -88,8 +93,10 @@ if (! file_exists('/tmp/html.json'))
         CURLOPT_FOLLOWLOCATION  => 1,
     ]);
 
+    echo "Creating DOM trees\n";
+
     $dom = New \DOMDocument();
-    $dom->loadHTML(curl_exec($ch));
+    $dom->loadHTML($html = curl_exec($ch));
 
         if (! $dom) Throw New \HttpException('Error while parsing the document');
 
@@ -120,8 +127,12 @@ if (! file_exists('/tmp/html.json'))
         }
     }
 
+    echo "Endpoints empty? ";
+
     if (! empty($endpoints))
     {
+        echo "No...\n";
+
         require_once '../Magetools/MultiCurl.php';
 
         $r = New MageTools\MultiCurl(); // multihandle to cut down on time
@@ -131,27 +142,36 @@ if (! file_exists('/tmp/html.json'))
             CURLOPT_SSL_VERIFYPEER  => 0,
             CURLOPT_FOLLOWLOCATION  => 1,
         ]);
+
+        file_put_contents('/tmp/html.json', json_encode($r->getResults(), JSON_PRETTY_PRINT));
+
     }
-
-    file_put_contents('/tmp/html.json', json_encode($r->getResults(), JSON_PRETTY_PRINT));
+} else {
+    echo "Yes...\n";
 }
 
-$output = [];
-foreach($r->getResults() AS $result)
+
+if (file_exists('/tmp/html.json'))
 {
-    $dom = New \DOMDocument();
-    $dom->loadHTML(curl_exec($ch));
+    $object = json_decode(file_get_contents('/tmp/html.json'));
 
-        if (! $dom) Throw New \HttpException('Error while parsing the document');
+    $output = [];
+    foreach ($object AS $result) {
+        $dom = New \DOMDocument();
+        $dom->loadHTML(curl_exec($ch));
 
-    $sxe = simplexml_import_dom($dom);
+        if (!$dom) Throw New \HttpException('Error while parsing the document');
 
-    print_r($sxe->xpath('//td[contains(@class, "thirdTitle")]'));
+        $sxe = simplexml_import_dom($dom);
 
-    $output[] = [
-        'name'  => ''
-    ];
-    die;
+        print_r($sxe->xpath('//td[contains(@class, "thirdTitle")]'));
+
+        $output[] = [
+            'name' => ''
+        ];
+        die;
+    }
+} else  {
+    echo 'wtf';
 }
-
 

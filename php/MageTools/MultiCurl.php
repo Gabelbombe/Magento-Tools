@@ -15,7 +15,6 @@ Namespace MageTools
 
         public function doRequests($data, $options = [])
         {
-        
             $multi  = []; // array of curl handles
             $result = []; // data to be returned
         
@@ -54,12 +53,17 @@ Namespace MageTools
             $running = null;
             do
             {
-                curl_multi_exec($mh, $running);
-            } while($running > 0);
+                if ($running <= 4) curl_multi_exec($mh, $running); //add handle
+
+                usleep(100); //sleep
+
+                echo "\nProcesses running: " . count($running);
+
+            } while ($running > 0);
         
         
             // get content and remove handles
-            foreach($multi AS $id => $c)
+            foreach ($multi AS $id => $c)
             {
                 $result[$id] = curl_multi_getcontent($c);
                 curl_multi_remove_handle($mh, $c);
