@@ -21,30 +21,40 @@
     ini_set('memory_limit', '-1');
     set_time_limit(0);
 
-    define('MAGENTO', realpath(dirname(dirname(__DIR__))) . '/Magento');
-    require_once MAGENTO . '/app/Mage.php';
+    define('BASE', realpath(dirname(dirname(__DIR__))) . '/Magento');
+
+    require_once BASE . '/app/Mage.php';
+    require_once BASE . '/script/php/MageTools/Connection.php';
+
+    $conn = New \MageTools\PDOConfig();
+    $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+    $res = $conn->prepare('SELECT descr, value FROM zp_attribute_value_set_value WHERE attribute_value_set_id = 1');
+    $res->execute();
+    $attrColors = $res->fetchAll(\PDO::FETCH_CLASS, 'ArrayObject');
 
     \Mage::app();
 
     // list of colors
-    require 'sort.php';
+    // require 'sort.php';
     if (! empty($attrColors))
     {
-        echo count($attrColors); die;
-
         $attributeModel = \Mage::getModel('eav/entity_attribute')->getCollection()->addFieldToFilter('frontend_label', 'Color');
         $attributeCode  = $attributeModel->getData('attribute_code') [0]['attribute_code'];
 
         $attributeModel = \Mage::getModel('eav/entity_attribute')->loadByCode('catalog_product', $attributeCode);
 
-        foreach ($attrColors AS $attributeCode => $attributeOption)
+        foreach ($attrColors AS $attributeCode => $attributeObject)
         {
+            $attributeOption = $attributeObject->descr;
+
             $data = [
                 'option' => [
                     'value' => [
                         0 => [                          // where 0 is optionId? storeId? can't remember
                             0 => $attributeOption,      // Admin
-                            1 => 'default',             // Default store view
+                            1 => '',                    // Default store view, default
+
                             // how to modify position   ???
                             // how to modify is_default ???
                         ],
@@ -52,9 +62,15 @@
                 ],
             ];
 
-            $attributeModel->addData($data)->save();
+            try
+            {
+                $attributeModel->addData($data)->save();
+            } Catch (\Exception $ex) {
+                echo "- Missing: {$attributeObject->descr}\n";
+            }
 
-                print_r($attributeModel->getData());
+            echo "+ Created: {$attributeObject->descr}\n";
+                //print_r($attributeModel->getData());
         }
     }
 

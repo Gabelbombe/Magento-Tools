@@ -25,7 +25,7 @@ Namespace MageTools
         {
             $this->engine = 'mysql';
             $this->host = 'localhost';
-            $this->database = '';
+            $this->database = 'filson';
             $this->user = 'root';
             $this->pass = '';
             $dns = $this->engine . ':dbname=' . $this->database . ";host=" . $this->host;
