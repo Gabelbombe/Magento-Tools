@@ -11,6 +11,8 @@ Namespace MageTools
 {
     Class MultiCurl
     {
+        const WriteFile = '/tmp/html.json';
+
         protected $result = [];
 
         public function doRequests($data, $options = [])
@@ -53,11 +55,7 @@ Namespace MageTools
             $running = null;
             do
             {
-                if ($running <= 4) curl_multi_exec($mh, $running); //add handle
-
-                usleep(100); //sleep
-
-                echo "\nProcesses running: " . count($running);
+                curl_multi_exec($mh, $running); //add handle
 
             } while ($running > 0);
         
@@ -66,12 +64,12 @@ Namespace MageTools
             foreach ($multi AS $id => $c)
             {
                 $result[$id] = curl_multi_getcontent($c);
+
                 curl_multi_remove_handle($mh, $c);
             }
         
             // all done
             curl_multi_close($mh);
-        
             $this->result = $result;
 
             return $this;

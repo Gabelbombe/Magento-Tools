@@ -1,6 +1,13 @@
 <?php
 
 libxml_use_internal_errors(1);
+ini_set("memory_limit", "-1");
+set_time_limit(0);
+
+//some memory cleanup for long-running scripts.
+gc_enable();            // Enable Garbage Collector
+var_dump(gc_enabled()); // true
+
 ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting(-1);
@@ -17,7 +24,31 @@ $getAttribute = function ($obj, $attr)
         : false;
 };
 
-    echo "Get new session ID via login form request\n";
+$getCodes = function ($html) USE ($getAttribute) //parent another closure
+{
+    $dom = New \DOMDocument();
+    $dom->loadHTML($html);
+
+    if (!$dom) Throw New \HttpException('Error while parsing the document');
+
+    $sxe    = simplexml_import_dom($dom);
+    $colors = [];
+
+    // expected node|countable (array) $node->attributes() blows up though
+    foreach ($sxe->xpath('//select[contains(@name, "MAIN_SKU.COLOR-")]/option') AS $node)
+    {
+        if (2 <= count($node->attributes()) && ! array_key_exists($key = $getAttribute($node, 'value'), $colors))
+
+            $colors["{$key}"] = trim(preg_replace('/\(.*/', '', (string) $node));
+    }
+
+    return (! empty($colors))
+        ? $colors
+        : false;
+};
+
+
+echo "Get new session ID via login form request\n";
 
 $ch = curl_init();
 $payload    = http_build_query([
@@ -31,10 +62,11 @@ curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER  => 1,
     CURLOPT_HEADER          => 1,
 ]);
+
 curl_exec($ch);
 curl_close($ch);
 
-    echo "Login via POST request\n";
+echo "Login via POST request\n";
 
 $ch = curl_init();
 $payload = http_build_query([
@@ -98,7 +130,7 @@ if (! file_exists('/tmp/html.json'))
     $dom = New \DOMDocument();
     $dom->loadHTML($html = curl_exec($ch));
 
-        if (! $dom) Throw New \HttpException('Error while parsing the document');
+    if (! $dom) Throw New \HttpException('Error while parsing the document');
 
     $endpoints = [];
 
@@ -110,7 +142,6 @@ if (! file_exists('/tmp/html.json'))
 
         if($payload = parse_url($uri) ['query']) // skip bs
         {
-
             $endpoints[] = ZR_ADMIN_URL . "?{$payload}";
 
             /**
@@ -133,45 +164,150 @@ if (! file_exists('/tmp/html.json'))
     {
         echo "No...\n";
 
-        require_once '../Magetools/MultiCurl.php';
+        $data  = New \SplFixedArray(1024 * 1024); // array();
+        $total = count($endpoints);
 
-        $r = New MageTools\MultiCurl(); // multihandle to cut down on time
+        $inc = 0;
+        foreach ($endpoints AS $id => $endpoint)
+        {
+            $pad = str_pad($inc, strlen($total), 0, STR_PAD_LEFT);
 
-        $r->doRequests($endpoints, [
-            CURLOPT_COOKIEFILE      => $cookieJar,
-            CURLOPT_SSL_VERIFYPEER  => 0,
-            CURLOPT_FOLLOWLOCATION  => 1,
-        ]);
+            echo "Trying ({$pad}/{$total}): {$endpoint}\n";
 
-        file_put_contents('/tmp/html.json', json_encode($r->getResults(), JSON_PRETTY_PRINT));
+            $ch = curl_init();
+            curl_setopt_array($ch, [
+                CURLOPT_URL             => $endpoint,
+                CURLOPT_COOKIEFILE      => $cookieJar,
+                CURLOPT_SSL_VERIFYPEER  => 0,
+                CURLOPT_RETURNTRANSFER  => 1,
+                CURLOPT_HEADER          => 0,
+                CURLOPT_FOLLOWLOCATION  => 1,
+            ]);
 
+            $result = curl_exec($ch);
+
+            $data[$id] = $result;
+
+            echo "Peak fake: ".(memory_get_peak_usage(false)/1024/1024)." MiB\n";
+            echo "Peak real: ".(memory_get_peak_usage(true)/1024/1024) ." MiB\n\n";
+
+            unset($result);
+
+            curl_close($ch);
+            $inc++;
+        }
+
+        $file = '/tmp/html.json';
+        if (touch($file) && is_writable($file))
+        {
+            echo "Attempting to write file\n";
+
+            if (! $handle = fopen($file, 'a'))
+                Throw New \Exception("Could not open file {$file}");
+
+            if (false === fwrite($handle, json_encode($data)))
+                Throw New \Exception("Could not write to file {$file}");
+
+            fclose($handle);
+        }
+
+        echo "Dumpfile saved!\n";
     }
 } else {
     echo "Yes...\n";
 }
 
-
 if (file_exists('/tmp/html.json'))
 {
     $object = json_decode(file_get_contents('/tmp/html.json'));
 
+    echo "Attempting to decode...\n";
+    echo "JSON said: " . $err = json_last_error_msg() . "\n";
+
+    if (0 !== json_last_error()) die;
+
     $output = [];
-    foreach ($object AS $result) {
+    foreach ($object AS $result)
+    {
         $dom = New \DOMDocument();
-        $dom->loadHTML(curl_exec($ch));
+        $dom->loadHTML($result);
 
         if (!$dom) Throw New \HttpException('Error while parsing the document');
 
-        $sxe = simplexml_import_dom($dom);
+        $sxe  = simplexml_import_dom($dom);
+        $item = $sxe->xpath('//td[contains(@class, "thirdTitle")]');
+        $page = $sxe->xpath('//div[contains(@class, "prsetpagelinks")]//a');
 
-        print_r($sxe->xpath('//td[contains(@class, "thirdTitle")]'));
+
+        echo "Processing: " . (string) $item[0]->b . "\n";
+
+
+        if (! empty($page)) // we have several pagination going here....
+        {
+            foreach($page AS $attr)
+            {
+                $next[] = ZR_ADMIN_URL . "?" . explode('?', $getAttribute($attr, 'href')) [1];
+            }
+        }
+
+        $colors = [];
+        $colors = $getCodes($result);
+
+        echo "\n";
+
+        if (! empty($next))
+        {
+            echo "Found " . count($next) . " additional pages in this set...\n";
+
+            require_once '../MageTools/MultiCurl.php';
+
+            $r = New \MageTools\MultiCurl();
+            $r->doRequests($endpoints, [
+                CURLOPT_COOKIEFILE      => $cookieJar,
+                CURLOPT_SSL_VERIFYPEER  => 0,
+                CURLOPT_FOLLOWLOCATION  => 1,
+            ]);
+
+print_r($r->getResults());
+die;
+            foreach ($next AS $endpoint)
+            {
+                echo "Fetching: {$endpoint}\n";
+
+                $ch = curl_init();
+                curl_setopt_array($ch, [
+                    CURLOPT_URL             => $endpoint,
+                    CURLOPT_COOKIEFILE      => $cookieJar,
+                    CURLOPT_SSL_VERIFYPEER  => 0,
+                    CURLOPT_RETURNTRANSFER  => 1,
+                    CURLOPT_HEADER          => 0,
+                    CURLOPT_FOLLOWLOCATION  => 1,
+                ]);
+
+                if (false === ($result = curl_exec($ch)))
+                {
+                    Throw New \HttpException("Died on: {$endpoint} with error(s)\n" . curl_error($ch));
+                }
+
+                $colors = ($getCodes($result) + $colors);
+                curl_close($ch);
+            }
+        }
 
         $output[] = [
-            'name' => ''
+            'ProductName'      => (string) $item[0]->b,
+            'ProductReference' => (string) $item[1]->b,
+            'ProductSwatches'  => $colors,
         ];
-        die;
+
+        echo "\n";
     }
-} else  {
-    echo 'wtf';
+
+    print_r(json_encode($output, JSON_PRETTY_PRINT));
+    gc_disable(); // Disable Garbage Collector
 }
 
+else
+{
+    Throw New \LogicException('Something broke in file writing sequence...');
+}
