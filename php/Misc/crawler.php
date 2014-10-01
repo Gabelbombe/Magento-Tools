@@ -34,18 +34,33 @@ $getCodes = function ($html) USE ($getAttribute) //parent another closure
     $sxe    = simplexml_import_dom($dom);
     $colors = [];
 
-    // expected node|countable (array) $node->attributes() blows up though
-    foreach ($sxe->xpath('//select[contains(@name, "MAIN_SKU.COLOR-")]/option') AS $node)
-    {
-        if (2 <= count($node->attributes()) && ! array_key_exists($key = $getAttribute($node, 'value'), $colors))
+    $xpre = $sxe->xpath('//select[contains(@name, "MAIN_SKU.COLOR-")]/option');
 
+        if (empty($xpre)) Throw New \Exception ('Missing data...');
+
+    foreach($xpre AS $node)
+    {
+        if (2 <= count($node->attributes()))
+        {
+            $key = $getAttribute($node, 'value');
             $colors["{$key}"] = trim(preg_replace('/\(.*/', '', (string) $node));
+        };
     }
 
     return (! empty($colors))
         ? $colors
         : false;
 };
+
+//
+$testThrow = function ($caseError)
+{
+    $url = ZR_ADMIN_URL;
+    if (preg_match('/cannot/i', exec ("ping=$(ping {$url} 2>&1); echo \$ping")))
+        Throw New \Exception ("Unable to connect to {$url}...");
+        Throw New \Exception ($caseError); //reachable
+};
+
 
 
 echo "Get new session ID via login form request\n";
@@ -127,8 +142,13 @@ if (! file_exists('/tmp/html.json'))
 
     echo "Creating DOM trees\n";
 
+    $response = curl_exec($ch);
+
+
+        if (! $response) $testThrow('Response empty...');
+
     $dom = New \DOMDocument();
-    $dom->loadHTML($html = curl_exec($ch));
+    $dom->loadHTML($response);
 
     if (! $dom) Throw New \HttpException('Error while parsing the document');
 
@@ -143,18 +163,6 @@ if (! file_exists('/tmp/html.json'))
         if($payload = parse_url($uri) ['query']) // skip bs
         {
             $endpoints[] = ZR_ADMIN_URL . "?{$payload}";
-
-            /**
-             * Was not a POST
-             *
-             * parse_str($payload, $components);
-             *
-             * $endpoints[$id] = [
-             *  'url'   => ZR_ADMIN_URL,
-             *  'post'  => $components,
-             * ];
-             *
-             */
         }
     }
 
@@ -214,7 +222,7 @@ if (! file_exists('/tmp/html.json'))
         echo "Dumpfile saved!\n";
     }
 } else {
-    echo "Yes...\n";
+    echo "Loader exists...\n";
 }
 
 if (file_exists('/tmp/html.json'))
@@ -241,12 +249,12 @@ if (file_exists('/tmp/html.json'))
 
         echo "Processing: " . (string) $item[0]->b . "\n";
 
-
+        $endpoints = []; // clear
         if (! empty($page)) // we have several pagination going here....
         {
             foreach($page AS $attr)
             {
-                $next[] = ZR_ADMIN_URL . "?" . explode('?', $getAttribute($attr, 'href')) [1];
+                $endpoints[] = ZR_ADMIN_URL . "?" . explode('?', $getAttribute($attr, 'href')) [1];
             }
         }
 
@@ -255,43 +263,30 @@ if (file_exists('/tmp/html.json'))
 
         echo "\n";
 
-        if (! empty($next))
+        if (! empty($endpoints))
         {
-            echo "Found " . count($next) . " additional pages in this set...\n";
+            echo "Found " . $count = count($endpoints) . " additional pages in this set...\n"; //casts to right for error
 
             require_once '../MageTools/MultiCurl.php';
 
             $r = New \MageTools\MultiCurl();
-            $r->doRequests($endpoints, [
-                CURLOPT_COOKIEFILE      => $cookieJar,
-                CURLOPT_SSL_VERIFYPEER  => 0,
-                CURLOPT_FOLLOWLOCATION  => 1,
-            ]);
 
-print_r($r->getResults());
-die;
-            foreach ($next AS $endpoint)
-            {
-                echo "Fetching: {$endpoint}\n";
-
-                $ch = curl_init();
-                curl_setopt_array($ch, [
-                    CURLOPT_URL             => $endpoint,
+                $r->doRequests($endpoints, [   //swarm
                     CURLOPT_COOKIEFILE      => $cookieJar,
                     CURLOPT_SSL_VERIFYPEER  => 0,
-                    CURLOPT_RETURNTRANSFER  => 1,
-                    CURLOPT_HEADER          => 0,
                     CURLOPT_FOLLOWLOCATION  => 1,
                 ]);
 
-                if (false === ($result = curl_exec($ch)))
-                {
-                    Throw New \HttpException("Died on: {$endpoint} with error(s)\n" . curl_error($ch));
-                }
+            if (false === ($dataSlice = $r->getResults()))
 
-                $colors = ($getCodes($result) + $colors);
-                curl_close($ch);
-            }
+                Throw New \Exception ("Response returned empty, expected {$count}");
+
+                foreach ($dataSlice AS $slice) $colors = ($getCodes($slice) + $colors);
+
+            unset($dataSlice); //free
+
+
+            print_r($colors); die;
         }
 
         $output[] = [
@@ -299,6 +294,8 @@ die;
             'ProductReference' => (string) $item[1]->b,
             'ProductSwatches'  => $colors,
         ];
+
+        print_r($output);
 
         echo "\n";
     }

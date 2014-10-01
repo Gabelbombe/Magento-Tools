@@ -13,13 +13,16 @@ Namespace MageTools
     {
         const WriteFile = '/tmp/html.json';
 
-        protected $result = [];
+        protected $result = [],
+                  $count  = 0;
 
         public function doRequests($data, $options = [])
         {
             $multi  = []; // array of curl handles
             $result = []; // data to be returned
-        
+
+            $this->count = count($data); // for comparison later
+
             // multi handle
             $mh = curl_multi_init();
         
@@ -27,7 +30,6 @@ Namespace MageTools
             // then add them to the multi-handle
             foreach ($data AS $id => $d) 
             {
-        
                 $multi[$id] = curl_init();
         
                 $url = (is_array($d) && ! empty($d['url']))
@@ -55,11 +57,15 @@ Namespace MageTools
             $running = null;
             do
             {
-                curl_multi_exec($mh, $running); //add handle
+                $status = curl_multi_exec($mh, $running); //add handle
+
+                if($status > 0) {
+                    // Display error message
+                    echo "CURL ERROR:\n " . curl_multi_strerror($status);
+                }
 
             } while ($running > 0);
-        
-        
+
             // get content and remove handles
             foreach ($multi AS $id => $c)
             {
@@ -67,9 +73,12 @@ Namespace MageTools
 
                 curl_multi_remove_handle($mh, $c);
             }
-        
+
             // all done
             curl_multi_close($mh);
+
+                if (count($result) !== $this->count) Throw New \Exception ('Count missed...');
+
             $this->result = $result;
 
             return $this;

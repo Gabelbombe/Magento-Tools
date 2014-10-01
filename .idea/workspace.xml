@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b7b1cf0e-5f29-4592-9246-3ee984fecf6e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/php/MageTools/MultiCurl.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/php/attrCrosscheck.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/php/Misc/crawler.php" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/php/attrOptions.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/MageTools/Connection.php" afterPath="$PROJECT_DIR$/php/MageTools/Connection.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/attrImport.php" afterPath="$PROJECT_DIR$/php/attrImport.php" />
+    <list default="true" id="da7927ac-0697-46a4-9f43-d87057102ae8" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/jondaniel.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/shell/mdg.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/MageTools/MultiCurl.php" afterPath="$PROJECT_DIR$/php/MageTools/MultiCurl.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/Misc/crawler.php" afterPath="$PROJECT_DIR$/php/Misc/crawler.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Magento-Tools.iws" />
@@ -33,42 +31,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Connection.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/php/MageTools/Connection.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.62589926" vertical-offset="0" max-vertical-offset="5640">
-              <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
-              <folding>
-                <marker date="1412005684000" expanded="true" signature="1979:2055" placeholder="SELECT id FR..wds_user..." />
-                <marker date="1412005684000" expanded="true" signature="2470:2509" placeholder="SELECT count..wds_user..." />
-                <marker date="1412005684000" expanded="true" signature="2786:2844" placeholder="SELECT id AS..wds_user..." />
-                <marker date="1412005684000" expanded="true" signature="3061:3119" placeholder="SELECT id AS..wds_user..." />
-                <marker date="1412005684000" expanded="true" signature="4234:4889" placeholder="SELECT ins_b..wds_user_address..." />
-                <marker date="1412005684000" expanded="true" signature="4451:4619" placeholder="SELECT wds_a..wds_user_address..." />
-                <marker date="1412005684000" expanded="true" signature="5712:6331" placeholder="SELECT &quot;&quot; AS..wds_user..." />
-                <marker date="1412005684000" expanded="true" signature="6711:7423" placeholder="SELECT wda.i..wds_address..." />
-                <marker date="1412005684000" expanded="true" signature="7801:8513" placeholder="SELECT wda.i..wds_address..." />
-                <marker date="1412005684000" expanded="true" signature="8889:9239" placeholder="SELECT wdp.p..wds_phone..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="crawler.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/php/Misc/crawler.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.0" vertical-offset="0" max-vertical-offset="2445">
-              <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
+            <state vertical-scroll-proportion="-10.0" vertical-offset="0" max-vertical-offset="4725">
+              <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MultiCurl.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/php/MageTools/MultiCurl.php">
+      <file leaf-file-name="mdg.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/shell/mdg.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.333333" vertical-offset="640" max-vertical-offset="1335">
-              <caret line="56" column="47" selection-start-line="56" selection-start-column="47" selection-end-line="56" selection-end-column="47" />
+            <state vertical-scroll-proportion="-1.3653846" vertical-offset="1410" max-vertical-offset="2190">
+              <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -87,23 +64,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/php/MageTools/pdoBinder.php" />
-        <option value="$PROJECT_DIR$/tmp/tmp" />
-        <option value="$PROJECT_DIR$/php/data/AttrColors.php" />
-        <option value="$PROJECT_DIR$/php/flushAllCaches.php" />
-        <option value="$PROJECT_DIR$/php/AttrTest.php" />
-        <option value="$PROJECT_DIR$/php/MageTools/Attributes.php" />
-        <option value="$PROJECT_DIR$/php/attrExport.php" />
-        <option value="$PROJECT_DIR$/php/attrOptions.php" />
-        <option value="$PROJECT_DIR$/php/data/AttrTypes.php" />
-        <option value="$PROJECT_DIR$/php/sort.php" />
-        <option value="$PROJECT_DIR$/php/mmci.php" />
-        <option value="$PROJECT_DIR$/php/attrImport.php" />
-        <option value="$PROJECT_DIR$/php/Misc/swatchImport.php" />
-        <option value="$PROJECT_DIR$/php/attrCrosscheck.php" />
-        <option value="$PROJECT_DIR$/php/MageTools/MultiCurl.php" />
         <option value="$PROJECT_DIR$/php/Misc/crawler.php" />
-        <option value="$PROJECT_DIR$/php/MageTools/Connection.php" />
+        <option value="$PROJECT_DIR$/shell/mdg.php" />
       </list>
     </option>
   </component>
@@ -119,7 +81,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
@@ -203,59 +165,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Magento-Tools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Magento-Tools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="php" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MageTools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Magento-Tools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Magento-Tools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="php" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="options.lastSelected" value="reference.settings.deploy.options" />
-    <property name="options.splitter.main.proportions" value="0.21166667" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="FullScreen" value="true" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/php/data/attrColors.php" />
-      <recent name="$PROJECT_DIR$/php/MageTools" />
-    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -272,50 +188,376 @@
       <BehatRunner />
       <method />
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="783e9ec2-81eb-45c3-901f-27cee5908b34" server_name="localhost">
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <pass-parent-env-vars>false</pass-parent-env-vars>
-      <envs />
       <method />
     </configuration>
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="StatisticsApplicationUsages">
+    <group name="vcs">
+      <project id="GAPI-PHP-Client" values="Git" />
+      <project id="ThroaFrontend" values="Git" />
+      <project id="Magento" values="Git" />
+      <project id="SimpleAngularSearch" values="Git" />
+      <project id="Amazon-QA" values="Git" />
+      <project id="throa.io" values="Git" />
+      <project id="Magento-Tools" values="Git" />
+      <project id="Code-Golf" values="Git" />
+      <project id="jeff.io" values="Git" />
+      <project id="Helper-Tools" values="Git" />
+      <project id="filson-tools.io" values="Git" />
+      <project id="Global-Tracker" values="Git" />
+      <project id="DOCX-Tools" values="Git" />
+      <project id="purls" values="Git" />
+      <project id="poker.io" values="Git" />
+    </group>
+    <group name="php-interpreter-debug-ext">
+      <project id="ThroaFrontend" values="xdebug" />
+    </group>
+    <group name="jdbc-datasource">
+      <project id="throa.io" values="MySQL/5.6.17" />
+    </group>
+    <group name="javaScript Frameworks">
+      <project id="Global-Tracker" values="jQuery 1.11,jQuery" />
+      <project id="Amazon-QA" values="jQuery" />
+    </group>
+    <group name="php-interpreters">
+      <project id="ThroaFrontend" values="1" />
+      <project id="DBVersioning" values="1" />
+      <project id="ThroaPhp" values="0" />
+      <project id="Magento" values="1" />
+      <project id="CodeGolf" values="0" />
+      <project id="JeffHtml" values="1" />
+      <project id="Logger" values="1" />
+      <project id="Tracert" values="1" />
+      <project id="Magento-Tools" values="1" />
+      <project id="Code-Golf" values="1" />
+      <project id="Filson IO" values="1" />
+      <project id="DateSortCSV" values="0" />
+      <project id="Global-Tracker" values="1" />
+      <project id="DOCX-Tools" values="1" />
+      <project id="poker.io" values="0" />
+      <project id="DEV Magento Enterprise" values="1" />
+      <project id="GAPI-PHP-Client" values="1" />
+      <project id="SimpleAngularSearch" values="0" />
+      <project id="Amazon-QA" values="0" />
+      <project id="throa.io" values="1" />
+      <project id="ThroaPHPApp" values="0" />
+      <project id="jeff.io" values="1" />
+      <project id="Helper-Tools" values="0" />
+      <project id="Phabricator" values="0" />
+      <project id="filson-tools.io" values="0" />
+      <project id="Magento CE" values="0" />
+      <project id="DB Versioning" values="1" />
+      <project id="purls" values="1" />
+      <project id="Throa" values="0" />
+    </group>
+    <group name="php-interpreter-version">
+      <project id="ThroaFrontend" values="5.5.12" />
+      <project id="DBVersioning" values="not installed" />
+      <project id="ThroaPhp" values="not installed" />
+      <project id="Magento" values="not installed" />
+      <project id="CodeGolf" values="not installed" />
+      <project id="JeffHtml" values="not installed" />
+      <project id="Logger" values="not installed" />
+      <project id="Tracert" values="not installed" />
+      <project id="Magento-Tools" values="not installed" />
+      <project id="Code-Golf" values="not installed" />
+      <project id="Filson IO" values="not installed" />
+      <project id="DateSortCSV" values="not installed" />
+      <project id="Global-Tracker" values="not installed" />
+      <project id="DOCX-Tools" values="not installed" />
+      <project id="poker.io" values="not installed" />
+      <project id="DEV Magento Enterprise" values="not installed" />
+      <project id="GAPI-PHP-Client" values="not installed" />
+      <project id="SimpleAngularSearch" values="not installed" />
+      <project id="Amazon-QA" values="not installed" />
+      <project id="throa.io" values="not installed" />
+      <project id="ThroaPHPApp" values="not installed" />
+      <project id="jeff.io" values="not installed" />
+      <project id="Helper-Tools" values="not installed" />
+      <project id="Phabricator" values="not installed" />
+      <project id="filson-tools.io" values="not installed" />
+      <project id="Magento CE" values="not installed" />
+      <project id="DB Versioning" values="not installed" />
+      <project id="purls" values="not installed" />
+      <project id="Throa" values="not installed" />
+    </group>
+    <group name="module type">
+      <project id="ThroaFrontend" values="WEB_MODULE" />
+      <project id="DBVersioning" values="WEB_MODULE" />
+      <project id="ThroaPhp" values="WEB_MODULE" />
+      <project id="Magento" values="WEB_MODULE" />
+      <project id="CodeGolf" values="WEB_MODULE" />
+      <project id="JeffHtml" values="WEB_MODULE" />
+      <project id="Logger" values="WEB_MODULE" />
+      <project id="Tracert" values="WEB_MODULE" />
+      <project id="Magento-Tools" values="WEB_MODULE" />
+      <project id="Code-Golf" values="WEB_MODULE" />
+      <project id="Filson IO" values="WEB_MODULE" />
+      <project id="DateSortCSV" values="WEB_MODULE" />
+      <project id="Global-Tracker" values="WEB_MODULE" />
+      <project id="DOCX-Tools" values="WEB_MODULE" />
+      <project id="poker.io" values="WEB_MODULE" />
+      <project id="DEV Magento Enterprise" values="WEB_MODULE" />
+      <project id="GAPI-PHP-Client" values="WEB_MODULE" />
+      <project id="SimpleAngularSearch" values="WEB_MODULE" />
+      <project id="Amazon-QA" values="WEB_MODULE" />
+      <project id="throa.io" values="WEB_MODULE" />
+      <project id="ThroaPHPApp" values="WEB_MODULE" />
+      <project id="jeff.io" values="WEB_MODULE" />
+      <project id="Helper-Tools" values="WEB_MODULE" />
+      <project id="Phabricator" values="WEB_MODULE" />
+      <project id="filson-tools.io" values="WEB_MODULE" />
+      <project id="Magento CE" values="WEB_MODULE" />
+      <project id="DB Versioning" values="WEB_MODULE" />
+      <project id="purls" values="WEB_MODULE" />
+      <project id="Throa" values="WEB_MODULE" />
+    </group>
+    <group name="deployment server">
+      <project id="ThroaFrontend" values="LOCAL,SFTP" />
+      <project id="DBVersioning" values="SFTP,LOCAL" />
+      <project id="Magento" values="SFTP,LOCAL" />
+      <project id="ThroaPhp" values="LOCAL,SFTP" />
+      <project id="JeffHtml" values="SFTP,LOCAL" />
+      <project id="CodeGolf" values="LOCAL,SFTP" />
+      <project id="Logger" values="LOCAL,SFTP" />
+      <project id="Tracert" values="SFTP,LOCAL" />
+      <project id="Magento-Tools" values="LOCAL,SFTP" />
+      <project id="Code-Golf" values="LOCAL,SFTP" />
+      <project id="Filson IO" values="SFTP,LOCAL" />
+      <project id="Global-Tracker" values="LOCAL,SFTP" />
+      <project id="DOCX-Tools" values="SFTP,LOCAL" />
+      <project id="poker.io" values="SFTP,LOCAL" />
+      <project id="DEV Magento Enterprise" values="SFTP,LOCAL" />
+      <project id="GAPI-PHP-Client" values="LOCAL,SFTP" />
+      <project id="SimpleAngularSearch" values="SFTP,LOCAL" />
+      <project id="Amazon-QA" values="LOCAL,SFTP" />
+      <project id="throa.io" values="LOCAL,SFTP" />
+      <project id="ThroaPHPApp" values="LOCAL,SFTP" />
+      <project id="jeff.io" values="SFTP,LOCAL" />
+      <project id="Helper-Tools" values="LOCAL,SFTP" />
+      <project id="Phabricator" values="SFTP,LOCAL" />
+      <project id="filson-tools.io" values="SFTP,LOCAL" />
+      <project id="DB Versioning" values="SFTP,LOCAL" />
+      <project id="Magento CE" values="SFTP,LOCAL" />
+      <project id="purls" values="SFTP,LOCAL" />
+    </group>
+    <group name="php-servers">
+      <project id="ThroaFrontend" values="0" />
+      <project id="DBVersioning" values="0" />
+      <project id="ThroaPhp" values="0" />
+      <project id="Magento" values="0" />
+      <project id="CodeGolf" values="0" />
+      <project id="JeffHtml" values="0" />
+      <project id="Logger" values="0" />
+      <project id="Tracert" values="0" />
+      <project id="Magento-Tools" values="0" />
+      <project id="Code-Golf" values="0" />
+      <project id="Filson IO" values="0" />
+      <project id="DateSortCSV" values="0" />
+      <project id="Global-Tracker" values="0" />
+      <project id="DOCX-Tools" values="0" />
+      <project id="poker.io" values="0" />
+      <project id="DEV Magento Enterprise" values="0" />
+      <project id="GAPI-PHP-Client" values="0" />
+      <project id="SimpleAngularSearch" values="0" />
+      <project id="Amazon-QA" values="0" />
+      <project id="throa.io" values="0" />
+      <project id="ThroaPHPApp" values="0" />
+      <project id="jeff.io" values="0" />
+      <project id="Helper-Tools" values="0" />
+      <project id="Phabricator" values="0" />
+      <project id="filson-tools.io" values="0" />
+      <project id="Magento CE" values="0" />
+      <project id="DB Versioning" values="0" />
+      <project id="purls" values="0" />
+      <project id="Throa" values="0" />
+    </group>
+    <group name="php-include-path">
+      <project id="ThroaFrontend" values="33" />
+      <project id="DBVersioning" values="0" />
+      <project id="ThroaPhp" values="0" />
+      <project id="Magento" values="0" />
+      <project id="CodeGolf" values="0" />
+      <project id="JeffHtml" values="0" />
+      <project id="Logger" values="0" />
+      <project id="Tracert" values="0" />
+      <project id="Magento-Tools" values="0" />
+      <project id="Code-Golf" values="0" />
+      <project id="Filson IO" values="0" />
+      <project id="DateSortCSV" values="0" />
+      <project id="Global-Tracker" values="0" />
+      <project id="DOCX-Tools" values="0" />
+      <project id="poker.io" values="0" />
+      <project id="DEV Magento Enterprise" values="0" />
+      <project id="GAPI-PHP-Client" values="0" />
+      <project id="SimpleAngularSearch" values="0" />
+      <project id="Amazon-QA" values="0" />
+      <project id="throa.io" values="1" />
+      <project id="ThroaPHPApp" values="0" />
+      <project id="jeff.io" values="0" />
+      <project id="Helper-Tools" values="0" />
+      <project id="Phabricator" values="0" />
+      <project id="filson-tools.io" values="0" />
+      <project id="Magento CE" values="0" />
+      <project id="DB Versioning" values="0" />
+      <project id="purls" values="0" />
+      <project id="Throa" values="0" />
+    </group>
+    <group name="file-type">
+      <project id="ThroaFrontend" values="htaccess,JavaScript,JSON,XML,CSS,PHP,PLAIN_TEXT,Images,Blade,UNKNOWN" />
+      <project id="DBVersioning" values="XML,UNKNOWN" />
+      <project id="ThroaPhp" values="CSS,Images,HTML,PHP,JavaScript,Gitignore file,UNKNOWN,XML" />
+      <project id="Magento" values="XML,Images,ActionScript,JavaScript,PHAR,htaccess,PHP,DTD,CSS,SCSS,SQL,HTML,Ini,UNKNOWN,SourceMap,PLAIN_TEXT" />
+      <project id="CodeGolf" values="UNKNOWN,PHP,XML" />
+      <project id="JeffHtml" values="htaccess,JavaScript,Images,CSS,Gitignore file,ARCHIVE,PHP,UNKNOWN,XML" />
+      <project id="Logger" values="XML,PHP,UNKNOWN,htaccess,PLAIN_TEXT" />
+      <project id="Tracert" values="XML,JSON,UNKNOWN,PHP,PLAIN_TEXT,HTML" />
+      <project id="Magento-Tools" values="PLAIN_TEXT,UNKNOWN,PHP,XML" />
+      <project id="Code-Golf" values="UNKNOWN,PHP,PLAIN_TEXT,XML,Gitignore file,SmartyConfig" />
+      <project id="Filson IO" values="PHAR,Images,SCSS,UNKNOWN,XML,htaccess,PHP,ActionScript,Ini,DTD,HTML,SQL,SourceMap,JavaScript,PLAIN_TEXT,CSS" />
+      <project id="DateSortCSV" values="XML,PHP,UNKNOWN" />
+      <project id="Global-Tracker" values="PHP,Gitignore file,XML,UNKNOWN" />
+      <project id="DOCX-Tools" values="SQL,PHP,PLAIN_TEXT,UNKNOWN,XML,CSS,Images,HTML,htaccess,JavaScript" />
+      <project id="poker.io" values="XML,PHP,SQL,PLAIN_TEXT,UNKNOWN,JSON,Gitignore file" />
+      <project id="DEV Magento Enterprise" values="Images,PHP,HTML,htaccess,PHAR,UNKNOWN,SCSS,SourceMap,ActionScript,Ini,JavaScript,CSS,DTD,PLAIN_TEXT,SQL,XML" />
+      <project id="GAPI-PHP-Client" values="XML,Gitignore file,JSON,CSS,PHP,Ini,UNKNOWN,YAML,PLAIN_TEXT" />
+      <project id="SimpleAngularSearch" values="UNKNOWN,PHP,htaccess,Gitignore file,HTML,JavaScript,CSS,XML" />
+      <project id="Amazon-QA" values="JSHint,YAML,HTML,C++,SCSS,Bash,JavaScript,PLAIN_TEXT,Images,CSS,SourceMap,SmartyConfig,XML,Twig,htaccess,JSON,Gitignore file,ReST,LESS,UNKNOWN,PHP" />
+      <project id="throa.io" values="Gitignore file,CSS,UNKNOWN,PLAIN_TEXT,PHP,YAML,JSON,htaccess,HTML,SQL,DATASOURCE_STORAGE,XML,Markdown" />
+      <project id="ThroaPHPApp" values="XML,UNKNOWN" />
+      <project id="jeff.io" values="PHP,htaccess,XML,UNKNOWN,Markdown,JSON,Gitignore file,YAML,PLAIN_TEXT" />
+      <project id="Helper-Tools" values="UNKNOWN,PLAIN_TEXT,XML,Ini,PHP,SmartyConfig" />
+      <project id="Phabricator" values="Images,SQL,C++,PATCH,YAML,ReST,XML,SmartyConfig,JSON,UNKNOWN,PHP,HTML,CSS,PLAIN_TEXT,JavaScript,ActionScript" />
+      <project id="filson-tools.io" values="PHP,UNKNOWN,XML,PLAIN_TEXT" />
+      <project id="Magento CE" values="PHAR,Ini,JavaScript,Images,PLAIN_TEXT,PHP,XML,SCSS,ActionScript,DTD,CSS,HTML,SQL,htaccess,UNKNOWN" />
+      <project id="DB Versioning" values="UNKNOWN,XML" />
+      <project id="purls" values="Gitignore file,htaccess,SmartyConfig,XML,UNKNOWN" />
+      <project id="Throa" values="XML,UNKNOWN" />
+    </group>
+    <group name="run-configuration-type-temp">
+      <project id="ThroaFrontend" values="JavascriptDebugType" />
+      <project id="Amazon-QA" values="PHPUnitRunConfigurationType" />
+    </group>
+    <group name="php-debug-skipped-paths">
+      <project id="ThroaFrontend" values="0" />
+      <project id="DBVersioning" values="0" />
+      <project id="ThroaPhp" values="0" />
+      <project id="Magento" values="0" />
+      <project id="CodeGolf" values="0" />
+      <project id="JeffHtml" values="0" />
+      <project id="Logger" values="0" />
+      <project id="Tracert" values="0" />
+      <project id="Magento-Tools" values="0" />
+      <project id="Code-Golf" values="0" />
+      <project id="Filson IO" values="0" />
+      <project id="DateSortCSV" values="0" />
+      <project id="Global-Tracker" values="0" />
+      <project id="DOCX-Tools" values="0" />
+      <project id="poker.io" values="0" />
+      <project id="DEV Magento Enterprise" values="0" />
+      <project id="GAPI-PHP-Client" values="0" />
+      <project id="SimpleAngularSearch" values="0" />
+      <project id="Amazon-QA" values="0" />
+      <project id="throa.io" values="0" />
+      <project id="ThroaPHPApp" values="0" />
+      <project id="jeff.io" values="0" />
+      <project id="Helper-Tools" values="0" />
+      <project id="Phabricator" values="0" />
+      <project id="filson-tools.io" values="0" />
+      <project id="Magento CE" values="0" />
+      <project id="DB Versioning" values="0" />
+      <project id="purls" values="0" />
+      <project id="Throa" values="0" />
+    </group>
+    <group name="jdbc-driver">
+      <project id="throa.io" values="com.mysql.jdbc.Driver" />
+    </group>
+    <group name="JavaScript versions">
+      <project id="ThroaFrontend" values="DEFAULT" />
+      <project id="DBVersioning" values="DEFAULT" />
+      <project id="ThroaPhp" values="DEFAULT" />
+      <project id="Magento" values="DEFAULT" />
+      <project id="CodeGolf" values="DEFAULT" />
+      <project id="JeffHtml" values="DEFAULT" />
+      <project id="Logger" values="DEFAULT" />
+      <project id="Tracert" values="DEFAULT" />
+      <project id="Magento-Tools" values="DEFAULT" />
+      <project id="Code-Golf" values="DEFAULT" />
+      <project id="Filson IO" values="DEFAULT" />
+      <project id="DateSortCSV" values="DEFAULT" />
+      <project id="Global-Tracker" values="DEFAULT" />
+      <project id="DOCX-Tools" values="DEFAULT" />
+      <project id="poker.io" values="DEFAULT" />
+      <project id="DEV Magento Enterprise" values="DEFAULT" />
+      <project id="GAPI-PHP-Client" values="DEFAULT" />
+      <project id="SimpleAngularSearch" values="DEFAULT" />
+      <project id="Amazon-QA" values="DEFAULT" />
+      <project id="throa.io" values="DEFAULT" />
+      <project id="ThroaPHPApp" values="DEFAULT" />
+      <project id="jeff.io" values="DEFAULT" />
+      <project id="Helper-Tools" values="DEFAULT" />
+      <project id="Phabricator" values="DEFAULT" />
+      <project id="filson-tools.io" values="DEFAULT" />
+      <project id="Magento CE" values="DEFAULT" />
+      <project id="DB Versioning" values="DEFAULT" />
+      <project id="purls" values="DEFAULT" />
+      <project id="Throa" values="DEFAULT" />
+    </group>
+    <group name="javaScript Scope Usages">
+      <project id="ThroaFrontend" values="Project,Project" />
+      <project id="DBVersioning" values="Project,Project" />
+      <project id="ThroaPhp" values="Project,Project" />
+      <project id="Magento" values="Project,Project" />
+      <project id="CodeGolf" values="Project,Project" />
+      <project id="JeffHtml" values="Project,Project" />
+      <project id="Logger" values="Project,Project" />
+      <project id="Tracert" values="Project,Project" />
+      <project id="Magento-Tools" values="Project,Project" />
+      <project id="Code-Golf" values="Project,Project" />
+      <project id="Filson IO" values="Project,Project" />
+      <project id="DateSortCSV" values="Project,Project" />
+      <project id="Global-Tracker" values="Project,Project,Project,Project" />
+      <project id="DOCX-Tools" values="Project,Project" />
+      <project id="poker.io" values="Project,Project" />
+      <project id="DEV Magento Enterprise" values="Project,Project" />
+      <project id="GAPI-PHP-Client" values="Project,Project" />
+      <project id="SimpleAngularSearch" values="Project,Project,Project,Project" />
+      <project id="Amazon-QA" values="Project,Project,Project" />
+      <project id="throa.io" values="Project,Project" />
+      <project id="ThroaPHPApp" values="Project,Project" />
+      <project id="jeff.io" values="Project,Project" />
+      <project id="Helper-Tools" values="Project,Project" />
+      <project id="Phabricator" values="Project,Project" />
+      <project id="filson-tools.io" values="Project,Project" />
+      <project id="Magento CE" values="Project,Project" />
+      <project id="DB Versioning" values="Project,Project" />
+      <project id="purls" values="Project,Project" />
+      <project id="Throa" values="Project,Project" />
+    </group>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b7b1cf0e-5f29-4592-9246-3ee984fecf6e" name="Default" comment="" />
-      <created>1411060930258</created>
+      <changelist id="da7927ac-0697-46a4-9f43-d87057102ae8" name="Default" comment="" />
+      <created>1412180323855</created>
       <option name="number" value="Default" />
-      <updated>1411060930258</updated>
+      <updated>1412180323855</updated>
     </task>
-    <task id="LOCAL-00001" summary="Adding attr tester">
-      <created>1411406215535</created>
-      <option name="number" value="00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1411406215535</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Swatch importer done, updating the rest">
-      <created>1411584686119</created>
-      <option name="number" value="00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1411584686119</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.124267295" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32932693" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -323,21 +565,31 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29305556" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2532189" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="UsageTrigger">
+    <counts>
+      <entry feature="CreateFile.CreateFileAction" count="168" />
+      <entry feature="NewDirectoryProjectAction.empty" count="4" />
+      <entry feature="execute.JavascriptDebugType.Debug" count="1" />
+      <entry feature="ide.settings.Deployment" count="4" />
+      <entry feature="ide.settings.Options" count="3" />
+      <entry feature="ide.settings.PHP" count="1" />
+      <entry feature="ideaapp.started" count="22" />
+    </counts>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -354,458 +606,32 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Adding attr tester" />
-    <MESSAGE value="Swatch importer done, updating the rest" />
-    <option name="LAST_COMMIT_MESSAGE" value="Swatch importer done, updating the rest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/php/AttrTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1027" max-vertical-offset="3285">
-          <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="735">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/data/AttrTypes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="150">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Connection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="5640">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="13" selection-end-column="24" />
-          <folding>
-            <marker date="1412005684000" expanded="true" signature="1979:2055" placeholder="SELECT id FR..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2470:2509" placeholder="SELECT count..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2786:2844" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="3061:3119" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="4234:4889" placeholder="SELECT ins_b..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="4451:4619" placeholder="SELECT wds_a..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="5712:6331" placeholder="SELECT &quot;&quot; AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="6711:7423" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="7801:8513" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="8889:9239" placeholder="SELECT wdp.p..wds_phone..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/sort.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="325" max-vertical-offset="1020">
-          <caret line="62" column="22" selection-start-line="62" selection-start-column="22" selection-end-line="62" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Attributes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="927" max-vertical-offset="6630">
-          <caret line="79" column="63" selection-start-line="79" selection-start-column="60" selection-end-line="79" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrExport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1260">
-          <caret line="23" column="41" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/AttrTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1027" max-vertical-offset="3285">
-          <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1860">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/data/AttrTypes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="150">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Connection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="5640">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="13" selection-end-column="24" />
-          <folding>
-            <marker date="1412005684000" expanded="true" signature="1979:2055" placeholder="SELECT id FR..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2470:2509" placeholder="SELECT count..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2786:2844" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="3061:3119" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="4234:4889" placeholder="SELECT ins_b..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="4451:4619" placeholder="SELECT wds_a..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="5712:6331" placeholder="SELECT &quot;&quot; AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="6711:7423" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="7801:8513" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="8889:9239" placeholder="SELECT wdp.p..wds_phone..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/sort.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="885" max-vertical-offset="1005">
-          <caret line="59" column="27" selection-start-line="59" selection-start-column="27" selection-end-line="59" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Attributes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="927" max-vertical-offset="6630">
-          <caret line="79" column="63" selection-start-line="79" selection-start-column="60" selection-end-line="79" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrExport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1260">
-          <caret line="23" column="41" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/AttrTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1027" max-vertical-offset="3285">
-          <caret line="49" column="16" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1815">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/data/AttrTypes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="150">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Connection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="5640">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="13" selection-end-column="24" />
-          <folding>
-            <marker date="1412005684000" expanded="true" signature="1979:2055" placeholder="SELECT id FR..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2470:2509" placeholder="SELECT count..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2786:2844" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="3061:3119" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="4234:4889" placeholder="SELECT ins_b..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="4451:4619" placeholder="SELECT wds_a..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="5712:6331" placeholder="SELECT &quot;&quot; AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="6711:7423" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="7801:8513" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="8889:9239" placeholder="SELECT wdp.p..wds_phone..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/sort.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="885" max-vertical-offset="1005">
-          <caret line="59" column="27" selection-start-line="59" selection-start-column="27" selection-end-line="59" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Attributes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="6015">
-          <caret line="16" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Connection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="5640">
-          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
-          <folding>
-            <marker date="1412005684000" expanded="true" signature="1979:2055" placeholder="SELECT id FR..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2470:2509" placeholder="SELECT count..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2786:2844" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="3061:3119" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="4234:4889" placeholder="SELECT ins_b..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="4451:4619" placeholder="SELECT wds_a..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="5712:6331" placeholder="SELECT &quot;&quot; AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="6711:7423" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="7801:8513" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="8889:9239" placeholder="SELECT wdp.p..wds_phone..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/AttrTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3075">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2874" max-vertical-offset="3675">
-          <caret line="245" column="3" selection-start-line="245" selection-start-column="3" selection-end-line="245" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Attributes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="6015">
-          <caret line="16" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Connection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5640">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1412005684000" expanded="true" signature="1979:2055" placeholder="SELECT id FR..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2470:2509" placeholder="SELECT count..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2786:2844" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="3061:3119" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="4234:4889" placeholder="SELECT ins_b..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="4451:4619" placeholder="SELECT wds_a..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="5712:6331" placeholder="SELECT &quot;&quot; AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="6711:7423" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="7801:8513" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="8889:9239" placeholder="SELECT wdp.p..wds_phone..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2874" max-vertical-offset="3675">
-          <caret line="245" column="3" selection-start-line="245" selection-start-column="3" selection-end-line="245" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Attributes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="6015">
-          <caret line="16" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Connection.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="5640">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1412005684000" expanded="true" signature="1979:2055" placeholder="SELECT id FR..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2470:2509" placeholder="SELECT count..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2786:2844" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="3061:3119" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="4234:4889" placeholder="SELECT ins_b..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="4451:4619" placeholder="SELECT wds_a..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="5712:6331" placeholder="SELECT &quot;&quot; AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="6711:7423" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="7801:8513" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="8889:9239" placeholder="SELECT wdp.p..wds_phone..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2874" max-vertical-offset="3675">
-          <caret line="245" column="3" selection-start-line="245" selection-start-column="3" selection-end-line="245" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Attributes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6015">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2874" max-vertical-offset="3675">
-          <caret line="245" column="3" selection-start-line="245" selection-start-column="3" selection-end-line="245" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Attributes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6015">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2874" max-vertical-offset="3675">
-          <caret line="245" column="3" selection-start-line="245" selection-start-column="3" selection-end-line="245" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Attributes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6015">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2874" max-vertical-offset="3675">
-          <caret line="245" column="3" selection-start-line="245" selection-start-column="3" selection-end-line="245" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/flushAllCaches.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.505618" vertical-offset="0" max-vertical-offset="930">
-          <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/sub-cats.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1650">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/AttrTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1102" max-vertical-offset="3360">
-          <caret line="54" column="16" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrExport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52434456" vertical-offset="345" max-vertical-offset="1260">
-          <caret line="51" column="10" selection-start-line="51" selection-start-column="10" selection-end-line="51" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Attributes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3220974" vertical-offset="927" max-vertical-offset="6630">
-          <caret line="79" column="63" selection-start-line="79" selection-start-column="60" selection-end-line="79" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/data/AttrTypes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.074906364" vertical-offset="0" max-vertical-offset="801">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/mmci.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="630" max-vertical-offset="3195">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding>
-            <element signature="e#9#259#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/data/AttrColors.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2535" max-vertical-offset="17895">
-          <caret line="169" column="14" selection-start-line="169" selection-start-column="9" selection-end-line="169" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrImport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38848922" vertical-offset="150" max-vertical-offset="1230">
-          <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/attrCrosscheck.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.609375" vertical-offset="0" max-vertical-offset="1455">
-          <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shell/env-setup.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/php/Misc/swatchImport.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.043165468" vertical-offset="0" max-vertical-offset="885">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/sort.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5683453" vertical-offset="325" max-vertical-offset="1020">
-          <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/MultiCurl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.333333" vertical-offset="640" max-vertical-offset="1335">
-          <caret line="56" column="47" selection-start-line="56" selection-start-column="47" selection-end-line="56" selection-end-column="47" />
-          <folding />
+        <state vertical-scroll-proportion="0.48076922" vertical-offset="0" max-vertical-offset="885">
+          <caret line="25" column="28" selection-start-line="25" selection-start-column="28" selection-end-line="25" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/php/Misc/crawler.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.0" vertical-offset="0" max-vertical-offset="2445">
-          <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
+        <state vertical-scroll-proportion="-10.0" vertical-offset="0" max-vertical-offset="4725">
+          <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/php/MageTools/Connection.php">
+    <entry file="file://$PROJECT_DIR$/shell/mdg.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62589926" vertical-offset="0" max-vertical-offset="5640">
-          <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
-          <folding>
-            <marker date="1412005684000" expanded="true" signature="1979:2055" placeholder="SELECT id FR..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2470:2509" placeholder="SELECT count..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="2786:2844" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="3061:3119" placeholder="SELECT id AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="4234:4889" placeholder="SELECT ins_b..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="4451:4619" placeholder="SELECT wds_a..wds_user_address..." />
-            <marker date="1412005684000" expanded="true" signature="5712:6331" placeholder="SELECT &quot;&quot; AS..wds_user..." />
-            <marker date="1412005684000" expanded="true" signature="6711:7423" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="7801:8513" placeholder="SELECT wda.i..wds_address..." />
-            <marker date="1412005684000" expanded="true" signature="8889:9239" placeholder="SELECT wdp.p..wds_phone..." />
-          </folding>
+        <state vertical-scroll-proportion="-1.3653846" vertical-offset="1410" max-vertical-offset="2190">
+          <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
+          <folding />
         </state>
       </provider>
     </entry>
