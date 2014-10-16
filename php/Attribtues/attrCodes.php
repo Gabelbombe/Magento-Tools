@@ -19,9 +19,9 @@
 
     \Mage::app();
 
-
+    // get attribute sets
     $attrSetCollection = \Mage::getResourceModel('eav/entity_attribute_set_collection')
-                         ->load();
+                         ->getItems();
 
     foreach ($attrSetCollection AS $id => $attributeSet)
     {
