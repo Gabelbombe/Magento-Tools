@@ -9,6 +9,14 @@ Namespace //global
 
 Namespace MageTools
 {
+    Class Products
+    {
+        public function fetch()
+        {
+            die('hit');
+        }
+    }
+
     Class SkuImageUploader
     {
         private $_uploadDir;
@@ -111,6 +119,10 @@ Namespace MageTools
 
 Namespace
 {
-    $u = New MageTools\SkuImageUploader();
-    $u->import()->showFiles();
+    $f = New MageTools\Products();
+    $f->fetch();
+
+
+//    $u = New MageTools\SkuImageUploader();
+//    $u->import()->showFiles();
 }
