@@ -27,7 +27,7 @@ Namespace MageTools
             $this->host = 'localhost';
             $this->database = 'filson';
             $this->user = 'root';
-            $this->pass = '';
+            $this->pass = 'm1+n3{$S*?.3/(-aK(MJg$~ld_.".G9E';
             $dns = $this->engine . ':dbname=' . $this->database . ";host=" . $this->host;
 
                 parent::__construct($dns, $this->user, $this->pass);

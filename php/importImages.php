@@ -11,9 +11,76 @@ Namespace MageTools
 {
     Class Products
     {
+        protected $error  = [];
+
+        private $products = [],
+                $skuMap   = ['config' => [], 'simple' => []];
+
         public function fetch()
         {
-            die('hit');
+            $this->products = $this->_parseCSV();
+            $this->skuArray = $this->_getSkuByProducts();
+
+            return $this;
+        }
+
+        protected function _getSkuByProducts()
+        {
+            if (! isset($this->products)) return [];
+
+            foreach ($this->products as $product)
+            {
+                if (! preg_match('/^[0-9]/', $product['sku']))
+                {
+                    $this->error[] = [
+                        'Reason' => 'Bad Sku',
+                        $product,
+                    ];
+
+                    continue;
+                }
+
+                if (preg_match('/^[0-9]{9}$/', $product['sku']))
+                {
+
+                    print_r(strpos($product['sku'],6)); die;
+                }
+
+                $this->skuMap[$product['sku']] =  $product;
+            }
+
+            return $this;
+        }
+
+
+        public function getProductSkuArray()
+        {
+            return (isset($this->skuMap) && ! empty($this->skuMap))
+                ? array_keys($this->skuMap)
+                : [];
+        }
+
+
+        private function _parseCSV()
+        {
+            $array  = array_map ('str_getcsv', file (__DIR__ . '/output/simple-products.csv'));
+            $header = array_shift ($array);
+
+            array_walk ($array, function (&$row, $null, $header)
+            {
+                if (count ($header) !== count ($row))
+                {
+                    $tmp = [];
+                    foreach ($header AS $inc => $key)
+                        $tmp[$key] = (isset($row[$inc])) ? $row[$inc] : false;
+                    file_put_contents (APP_DIR . '/logs/zr_errors.log', json_encode ($tmp, JSON_PRETTY_PRINT), LOCK_EX | FILE_APPEND);
+                    $row = $tmp;
+                }
+                else $row = array_combine ($header, $row);
+
+            }, $header);
+
+            return $array;
         }
     }
 
@@ -86,7 +153,7 @@ Namespace MageTools
                 }
             }
 
-            catch (Exception $e)
+            catch (\Exception $e)
             {
                 echo "Exception thrown for {$sku}: " . $e->getMessage() . "\r\n";
             }
@@ -120,7 +187,7 @@ Namespace MageTools
 Namespace
 {
     $f = New MageTools\Products();
-    $f->fetch();
+    print_r($f->fetch()->getProductSkuArray());
 
 
 //    $u = New MageTools\SkuImageUploader();

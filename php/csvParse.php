@@ -348,6 +348,8 @@ echo "All products have been assigned\n";
     file_put_contents(APP_DIR . '/php/output/dump.json', json_encode($json, JSON_PRETTY_PRINT));
     file_put_contents(APP_DIR . '/php/error/compilation.json', ''); //clean logfile
 
+
+$skuWhitelist    = [];
 $simpleProducts  = [];
 $complexProducts = [];
 $i = 0;
@@ -477,6 +479,9 @@ foreach ($json AS &$objProducts)
 
     $cTemp['is_in_stock']             = ('Yes' == trim($objProducts->Active) ? 1 : 0);
 
+    $complexSizes = [];
+    $complexTypes = [];
+
     // creates simple children
     foreach ($objProducts->Swatches AS $swatchId => $swatchName) // run swatches as leading
     {
@@ -565,6 +570,9 @@ foreach ($json AS &$objProducts)
             if ($swatchName == array_values($objProducts->Swatches) [0])
                 unset($simpleColors [0]);
 
+            if (isset($skuWhitelist[$skuMap[$inc]])) continue;
+
+                $skuWhitelist[$skuMap[$inc]] = false;
 
             // colors is primary so skip first
             foreach ($simpleColors AS $inc => $products)
@@ -576,7 +584,7 @@ foreach ($json AS &$objProducts)
                 ] + array_map(function() {}, $attrTemplate));
             }
 
-            $sizeValues = @array_combine($skuMap, array_values($objProducts->Attributes) [0]);
+            $sizeValues = array_combine($skuMap, array_values($objProducts->Attributes) [0]);
 
             if (empty($sizeValues))
             {
@@ -638,16 +646,8 @@ foreach ($json AS &$objProducts)
 
     if (! $isSimple)
     {
-        if (!empty($complexProducts))
+        if (!empty($complexProducts) && isset($cTemp['_attribute_set']) && ! preg_match('/one size/i', $objProducts->AttributeSet))
         {
-
-
-            // must be first or nothing no other simples will bind to a complex product
-//            if (!empty($complexProducts))
-//                foreach ($complexProducts AS $products)
-//                    $complexArray[] = $products;
-
-
             // complex bind must after all simples, but before all other options
             $complexArray[] = $cTemp;
 
@@ -660,31 +660,33 @@ foreach ($json AS &$objProducts)
                     $complexArray[] = $products;
 
             if (!empty($complexTypes))
-            {
                 foreach ($complexTypes AS $type)
                     foreach ($type AS $products)
                         $complexArray[] = $products;
-            }
         }
+
+        $complexColors = $complexSizes = $complexTypes = [];
     }
 }
 
-
-if (! $isSimple)
+if ('all' === $isSimple)
 {
-    $simpleProducts = $complexArray;
+    $input = array_merge($simpleProducts, $complexProducts);
+
+}else if($isSimple){
+    $input = $simpleProducts;
+}else{
+    $input = $complexArray;
 }
-
-
-//$simpleProducts = array_merge($simpleProducts, $complexProducts);
 
 $simpleSorted = [];
 $simpleTemp   = [];
 $abstract     = [];
 $i=1;
 
+echo "Found: " . count($input) . "\n";
 echo "Remapping contents\n";
-foreach($simpleProducts AS $key => $products)
+foreach($input AS $key => $products)
 {
     foreach ($attrTemplate AS $aKey => $null)
     {
@@ -694,9 +696,11 @@ foreach($simpleProducts AS $key => $products)
     $abstract[] = ['line' => $i++, $simpleTemp];
 
     $whitelist[$products['url_key']] = null;
+
     $simpleSorted[$key] = $simpleTemp;
 }
 
+    echo "Writing Abstract\n";
     file_put_contents(APP_DIR . '/php/output/abstract.json', json_encode($abstract, JSON_PRETTY_PRINT), LOCK_EX);
 
     $type = (! $isSimple)

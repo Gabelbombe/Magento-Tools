@@ -1,9 +1,11 @@
 <?php
 
 define ('URL', 'http://www.filson.com/images/products/swatches/detail/');
-require dirname(__DIR__) . '/MageTools/Connection.php';
 
-$log  = '/tmp/not-found.txt';
+    require dirname(__DIR__) . '/MageTools/Connection.php';
+    require dirname(__DIR__) . '/MageTools/Archive/Zip.php';
+
+$log  = '/tmp/swatches/missing-swatches.txt';
 $conn = New \MageTools\PDOConfig();
 $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
@@ -43,12 +45,18 @@ foreach($total = $res->fetchAll(\PDO::FETCH_CLASS, 'ArrayObject') AS $id => $ao)
     $im->setImageCompressionQuality(0);
     $im->stripImage();
 
-    $im->writeImage("/tmp/swatches/{$ao->value}.png");
+    $descr = preg_replace(['/\s+/', '/\//','/\s+/'],[' ', ' ','-'], $ao->descr);
+
+    $im->writeImage("/tmp/swatches/{$descr}-{$ao->value}.png");
 
     $im->clear();
     $im->destroy();
 
     echo "+ Created: {$ao->descr}\n";
 }
+
+echo "\nCreating Archive\n";
+
+    \Archive\Zip::compress('/tmp/swatches', 'swatches.zip', 1);
 
 echo "\n {$missing} out of " . count($total) . " not found.\n\n";
