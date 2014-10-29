@@ -1,138 +1,126 @@
 <?php
 
-libxml_use_internal_errors(1);
-ini_set("memory_limit", "-1");
-set_time_limit(0);
+    define ('APP_DIR', realpath(dirname(__DIR__)));
 
-//some memory cleanup for long-running scripts.
-gc_enable();            // Enable Garbage Collector
-var_dump(gc_enabled()); // true
+    $pass  = false;
+    $limit = 5000;
 
-ini_set('display_startup_errors', 1);
-ini_set('display_errors', 1);
-error_reporting(-1);
+    libxml_use_internal_errors(1);
+    ini_set("memory_limit", "-1");
+    set_time_limit(0);
+    ignore_user_abort(0); // for sig-trapping
 
-define ('ZR_ADMIN_URL',   '');
-define ('FS_USER',        '');
-define ('FS_PASS',        '');
 
-$cookieJar    = tempnam('/tmp','cookie');
-$getAttribute = function ($obj, $attr)
-{
-    return (isset($obj[$attr]))
-        ? (string) $obj[$attr]
-        : false;
-};
+    //some memory cleanup for long-running scripts.
+    gc_enable();            //Enable Garbage Collector
+    var_dump(gc_enabled()); //true
 
-$getCodes = function ($html) USE ($getAttribute) //parent another closure
-{
-    $dom = New \DOMDocument();
-    $dom->loadHTML($html);
+    ini_set('display_startup_errors', 1);
+    ini_set('display_errors', 1);
+    error_reporting(-1);
 
-    if (!$dom) Throw New \HttpException('Error while parsing the document');
+    define ('ZR_ADMIN_URL',   'https://filsonadmin.zaneray.com:447/za/ZCADM');
+    define ('FS_USER',        'jon.daniel@filson.com');
+    define ('FS_PASS',        '');
 
-    $sxe    = simplexml_import_dom($dom);
-    $colors = [];
 
-    $xpre = $sxe->xpath('//select[contains(@name, "MAIN_SKU.COLOR-")]/option');
+    $productError = [];
+    $cookieJar    = tempnam('/tmp','cookie');
+    $inputFile    = APP_DIR . '/input/html.json';
 
-        if (empty($xpre)) Throw New \Exception ('Missing data...');
 
-    foreach($xpre AS $node)
+    $getAttribute = function ($obj, $attr)
     {
-        if (2 <= count($node->attributes()))
+        return (isset($obj[$attr]))
+            ? (string) $obj[$attr]
+            : false;
+    };
+
+    $getCodes = function ($html, $id, $data = []) USE ($getAttribute) //parent another closure
+    {
+        $dom = New \DOMDocument();
+        $dom->loadHTML($html);
+
+        if (! $dom) Throw New \HttpException('Error while parsing the document');
+
+        $sxe    = simplexml_import_dom($dom);
+        $colors = [];
+
+        $xpre = $sxe->xpath('//select[contains(@name, "MAIN_SKU.COLOR-")]/option');
+
+        if (empty($xpre))
         {
-            $key = $getAttribute($node, 'value');
-            $colors["{$key}"] = trim(preg_replace('/\(.*/', '', (string) $node));
-        };
-    }
+            echo (empty($data->ends))
+                ? "--> '{$data->name} ({$data->sku})' returned an empty document...\n\n"
+                : "--> {$data->ends[$id]}\n";
+        }
 
-    return (! empty($colors))
-        ? $colors
-        : false;
-};
+        foreach($xpre AS $node)
+        {
+            if (2 <= count($node->attributes()))
+            {
+                $key = $getAttribute($node, 'value');
+                $colors["{$key}"] = trim(preg_replace('/\(.*/', '', (string) $node));
+            };
+        }
 
-//
-$testThrow = function ($caseError)
-{
-    $url = ZR_ADMIN_URL;
-    if (preg_match('/cannot/i', exec ("ping=$(ping {$url} 2>&1); echo \$ping")))
-        Throw New \Exception ("Unable to connect to {$url}...");
-        Throw New \Exception ($caseError); //reachable
-};
+        return (! empty($colors))
+            ? $colors
+            : [];
+    };
 
+    $getSizes = function ($html) //parent another closure
+    {
+        $dom = New \DOMDocument();
+        $dom->loadHTML($html);
 
+        if (! $dom) Throw New \HttpException('Error while parsing the document');
 
-echo "Get new session ID via login form request\n";
+        $sxe  = simplexml_import_dom($dom);
+        $xpre = $sxe->xpath('//select[contains(@name, "MAIN_SKU.SIZE-")]/option');
 
-$ch = curl_init();
-$payload    = http_build_query([
-    'PAGE'      => 'LOGON_USER',
-]);
+        foreach($xpre AS $node) if (2 <= count($node->attributes()))
 
-curl_setopt_array($ch, [
-    CURLOPT_URL             => ZR_ADMIN_URL . "?{$payload}",
-    CURLOPT_COOKIEJAR       => $cookieJar,
-    CURLOPT_SSL_VERIFYPEER  => 0,
-    CURLOPT_RETURNTRANSFER  => 1,
-    CURLOPT_HEADER          => 1,
-]);
+            return (string) $node;
 
-curl_exec($ch);
-curl_close($ch);
+        return false;
+    };
 
-echo "Login via POST request\n";
+    //actual start...
+    echo "Get new session ID via login form request\n";
 
-$ch = curl_init();
-$payload = http_build_query([
-    'WDS_USER.USERID'       => FS_USER,
-    'WDS_USER.PASSWORD'     => FS_PASS,
-    'OPTION'                => 'LOGONUSER',
-    'PAGE'                  => 'LOGON_PAGE',
-    'HOMEPAGE'              => ZR_ADMIN_URL,
-    'WDS_USER.COMPANY_ID'   => 1,
-]);
+    $ch = curl_init();
+    $payload    = http_build_query([
+        'PAGE'      => 'LOGON_USER',
+    ]);
 
-curl_setopt_array($ch, [
-    CURLOPT_URL             => ZR_ADMIN_URL,
-    CURLOPT_POSTFIELDS      => $payload,
-    CURLOPT_COOKIEJAR       => $cookieJar,
-    CURLOPT_POST            => 1,
-    CURLOPT_SSL_VERIFYPEER  => 0,
-    CURLOPT_RETURNTRANSFER  => 1,
-    CURLOPT_HEADER          => 0,
-    CURLOPT_FOLLOWLOCATION  => 1,
-]);
+    curl_setopt_array($ch, [
+        CURLOPT_URL             => ZR_ADMIN_URL . "?{$payload}",
+        CURLOPT_COOKIEJAR       => $cookieJar,
+        CURLOPT_SSL_VERIFYPEER  => 0,
+        CURLOPT_RETURNTRANSFER  => 1,
+        CURLOPT_HEADER          => 1,
+    ]);
 
-curl_exec($ch);
-curl_close($ch);
+    curl_exec($ch);
+    curl_close($ch);
 
-echo "Dumpfile exists? ";
-
-if (! file_exists('/tmp/html.json'))
-{
-    echo "No...\n";
-    echo "Obtaining links list\n";
+    echo "Login via POST request\n";
 
     $ch = curl_init();
     $payload = http_build_query([
-        'ACTIVE'                => 0,
-        'DOINGSEARCH'           => 'TRUE',
-        'DOSORT'                => 'TRUE',
-        'LEVEL'                 => 'PRODUCT',
-        'NAME'                  => '',
-        'PAGE'                  => 'ZP_PRODUCT_SEARCH',
-        'PRODUCT_SET.ID'        => '*ALL',
-        'PRODUCT_TYPE.ID'       => '*ALL',
-        'RESULTS_PER_PAGE'      => 5000,
-        'REFERENCEID'           => '',
-        'SEARCH_FORM_REDRAW'    => 'FALSE'
+        'WDS_USER.USERID'       => FS_USER,
+        'WDS_USER.PASSWORD'     => FS_PASS,
+        'OPTION'                => 'LOGONUSER',
+        'PAGE'                  => 'LOGON_PAGE',
+        'HOMEPAGE'              => ZR_ADMIN_URL,
+        'WDS_USER.COMPANY_ID'   => 1,
     ]);
 
     curl_setopt_array($ch, [
         CURLOPT_URL             => ZR_ADMIN_URL,
         CURLOPT_POSTFIELDS      => $payload,
-        CURLOPT_COOKIEFILE      => $cookieJar,
+        CURLOPT_COOKIEJAR       => $cookieJar,
         CURLOPT_POST            => 1,
         CURLOPT_SSL_VERIFYPEER  => 0,
         CURLOPT_RETURNTRANSFER  => 1,
@@ -140,171 +128,318 @@ if (! file_exists('/tmp/html.json'))
         CURLOPT_FOLLOWLOCATION  => 1,
     ]);
 
-    echo "Creating DOM trees\n";
+    curl_exec($ch);
+    curl_close($ch);
 
-    $response = curl_exec($ch);
+    echo "Dumpfile exists? ";
 
-
-        if (! $response) $testThrow('Response empty...');
-
-    $dom = New \DOMDocument();
-    $dom->loadHTML($response);
-
-    if (! $dom) Throw New \HttpException('Error while parsing the document');
-
-    $endpoints = [];
-
-    $sxe = simplexml_import_dom($dom);
-    foreach($sxe->xpath('//td[contains(@class, "iconlinks")]//a') AS $id => $attr)
-    {
-        // test and set if this is a sku link otherwise skip...
-        if (! preg_match('/sku/i', $uri = $getAttribute($attr, 'href'))) continue;
-
-        if($payload = parse_url($uri) ['query']) // skip bs
-        {
-            $endpoints[] = ZR_ADMIN_URL . "?{$payload}";
-        }
-    }
-
-    echo "Endpoints empty? ";
-
-    if (! empty($endpoints))
+    if (! file_exists($inputFile) || $pass)
     {
         echo "No...\n";
+        echo "Obtaining links list\n";
 
-        $data  = New \SplFixedArray(1024 * 1024); // array();
-        $total = count($endpoints);
+        if ($pass) file_put_contents(APP_DIR . '/input/html.json', ''); //clean
 
-        $inc = 0;
-        foreach ($endpoints AS $id => $endpoint)
-        {
-            $pad = str_pad($inc, strlen($total), 0, STR_PAD_LEFT);
+        $ch = curl_init();
+        $payload = http_build_query([
+            'DOINGSEARCH'           => 'TRUE',
+            'DOSORT'                => 'TRUE',
+            'LEVEL'                 => 'PRODUCT',
+            'NAME'                  => '',
+            'PAGE'                  => 'ZP_PRODUCT_SEARCH',
+            'PRODUCT_SET.ID'        => '*ALL',
+            'PRODUCT_TYPE.ID'       => '*ALL',
+            'RESULTS_PER_PAGE'      => $limit,
+            'REFERENCEID'           => '',
+            'SEARCH_FORM_REDRAW'    => 'FALSE'
+        ]);
 
-            echo "Trying ({$pad}/{$total}): {$endpoint}\n";
+        curl_setopt_array($ch, [
+            CURLOPT_URL             => ZR_ADMIN_URL,
+            CURLOPT_POSTFIELDS      => $payload,
+            CURLOPT_COOKIEFILE      => $cookieJar,
+            CURLOPT_POST            => 1,
+            CURLOPT_SSL_VERIFYPEER  => 0,
+            CURLOPT_RETURNTRANSFER  => 1,
+            CURLOPT_HEADER          => 0,
+            CURLOPT_FOLLOWLOCATION  => 1,
+        ]);
 
-            $ch = curl_init();
-            curl_setopt_array($ch, [
-                CURLOPT_URL             => $endpoint,
-                CURLOPT_COOKIEFILE      => $cookieJar,
-                CURLOPT_SSL_VERIFYPEER  => 0,
-                CURLOPT_RETURNTRANSFER  => 1,
-                CURLOPT_HEADER          => 0,
-                CURLOPT_FOLLOWLOCATION  => 1,
-            ]);
+        echo "Creating DOM trees\n";
 
-            $result = curl_exec($ch);
+        $response = curl_exec($ch);
 
-            $data[$id] = $result;
+        if (! $response) Throw New \Exception('Response empty...');
 
-            echo "Peak fake: ".(memory_get_peak_usage(false)/1024/1024)." MiB\n";
-            echo "Peak real: ".(memory_get_peak_usage(true)/1024/1024) ." MiB\n\n";
-
-            unset($result);
-
-            curl_close($ch);
-            $inc++;
-        }
-
-        $file = '/tmp/html.json';
-        if (touch($file) && is_writable($file))
-        {
-            echo "Attempting to write file\n";
-
-            if (! $handle = fopen($file, 'a'))
-                Throw New \Exception("Could not open file {$file}");
-
-            if (false === fwrite($handle, json_encode($data)))
-                Throw New \Exception("Could not write to file {$file}");
-
-            fclose($handle);
-        }
-
-        echo "Dumpfile saved!\n";
-    }
-} else {
-    echo "Loader exists...\n";
-}
-
-if (file_exists('/tmp/html.json'))
-{
-    $object = json_decode(file_get_contents('/tmp/html.json'));
-
-    echo "Attempting to decode...\n";
-    echo "JSON said: " . $err = json_last_error_msg() . "\n";
-
-    if (0 !== json_last_error()) die;
-
-    $output = [];
-    foreach ($object AS $result)
-    {
         $dom = New \DOMDocument();
-        $dom->loadHTML($result);
+        $dom->loadHTML($response);
 
-        if (!$dom) Throw New \HttpException('Error while parsing the document');
+        if (! $dom) Throw New \Exception('Error while parsing the document');
 
-        $sxe  = simplexml_import_dom($dom);
-        $item = $sxe->xpath('//td[contains(@class, "thirdTitle")]');
-        $page = $sxe->xpath('//div[contains(@class, "prsetpagelinks")]//a');
+        $endpoints = [];
 
+        $sxe = simplexml_import_dom($dom);
 
-        echo "Processing: " . (string) $item[0]->b . "\n";
-
-        $endpoints = []; // clear
-        if (! empty($page)) // we have several pagination going here....
+        $manager = [];
+        foreach ($sxe->xpath('//tr[@data-productid]') AS $id => $node)
         {
-            foreach($page AS $attr)
+            $pid = $getAttribute($node, 'data-productid');
+            $rid = $getAttribute($node, 'data-refid');
+
+            // create a node farm...
+            if (is_numeric($rid))
             {
-                $endpoints[] = ZR_ADMIN_URL . "?" . explode('?', $getAttribute($attr, 'href')) [1];
+                $manager[] = (object) [
+                    'PID'       => $pid,
+                    'RID'       => $rid,
+                    'PURL'      => ZR_ADMIN_URL . '?' . parse_url($getAttribute($node->td[8]->a, 'href')) ['query'],
+                    'SURL'      => ZR_ADMIN_URL . '?' . parse_url($getAttribute($node->td[9]->a, 'href')) ['query'],
+                    'Name'      => (string) $node->td[2]->span,
+                    'Created'   => (string) $node->td[6]->span,
+                    'Active'    => $getAttribute($node->td[7]->div->input, 'value'),
+                ];
             }
         }
 
-        $colors = [];
-        $colors = $getCodes($result);
+        echo "Manager empty? ";
 
-        echo "\n";
-
-        if (! empty($endpoints))
+        if (! empty($manager))
         {
-            echo "Found " . $count = count($endpoints) . " additional pages in this set...\n"; //casts to right for error
+            echo "No...\n\n";
 
-            require_once '../MageTools/MultiCurl.php';
+            file_put_contents($inputFile, "[", LOCK_EX);
 
-            $r = New \MageTools\MultiCurl();
+            $data  = [];
+            $total = count($manager);
 
-                $r->doRequests($endpoints, [   //swarm
+            $inc = 0;
+            foreach ($manager AS $id => &$endpoint)
+            {
+                $pad = str_pad($inc, strlen($total), 0, STR_PAD_LEFT);
+
+                echo "Capturing: ({$pad}/{$total}): {$endpoint->Name}\n";
+
+                // get edit skus page
+                echo " + Fetching Products page\n";
+                $ch = curl_init();
+                curl_setopt_array($ch, [
+                    CURLOPT_URL             => $endpoint->PURL,
                     CURLOPT_COOKIEFILE      => $cookieJar,
                     CURLOPT_SSL_VERIFYPEER  => 0,
+                    CURLOPT_RETURNTRANSFER  => 1,
+                    CURLOPT_HEADER          => 0,
                     CURLOPT_FOLLOWLOCATION  => 1,
                 ]);
 
-            if (false === ($dataSlice = $r->getResults()))
+                $endpoint->PDATA = curl_exec($ch);
+                curl_close($ch);
 
-                Throw New \Exception ("Response returned empty, expected {$count}");
+                // get edit product page
+                echo " + Fetching SKUS page\n";
+                $ch = curl_init();
+                curl_setopt_array($ch, [
+                    CURLOPT_URL             => $endpoint->SURL,
+                    CURLOPT_COOKIEFILE      => $cookieJar,
+                    CURLOPT_SSL_VERIFYPEER  => 0,
+                    CURLOPT_RETURNTRANSFER  => 1,
+                    CURLOPT_HEADER          => 0,
+                    CURLOPT_FOLLOWLOCATION  => 1,
+                ]);
 
-                foreach ($dataSlice AS $slice) $colors = ($getCodes($slice) + $colors);
+                $endpoint->SDATA = curl_exec($ch);
+                curl_close($ch);
 
-            unset($dataSlice); //free
+                echo " + Writing....\n";
+                file_put_contents(
+                    $inputFile, json_encode($endpoint) .
+                    (++$inc !== $total
+                        ? "," //add comma
+                        : "]" //closing bracket, no comma
+                    ), LOCK_EX | FILE_APPEND
+                );
 
-
-            print_r($colors); die;
+                //unpad to hundredths
+                echo "Peak fake: ".(sprintf('%0.2f', memory_get_peak_usage(0)/1024/1024))." MiB\n";
+                echo "Peak real: ".(sprintf('%0.2f', memory_get_peak_usage(1)/1024/1024)) ." MiB\n\n";
+            }
+            echo "Dumpfile Complete!\n";
         }
-
-        $output[] = [
-            'ProductName'      => (string) $item[0]->b,
-            'ProductReference' => (string) $item[1]->b,
-            'ProductSwatches'  => $colors,
-        ];
-
-        print_r($output);
-
-        echo "\n";
     }
 
-    print_r(json_encode($output, JSON_PRETTY_PRINT));
-    gc_disable(); // Disable Garbage Collector
-}
+    else
+    {
+        echo "Loader exists...\n";
+    }
 
-else
-{
-    Throw New \LogicException('Something broke in file writing sequence...');
-}
+
+    ///////////
+
+
+    if (file_exists($inputFile))
+    {
+        $object = json_decode(file_get_contents($inputFile));
+
+        echo "Attempting to decode...\n";
+        echo "JSON said: " . $err = json_last_error_msg() . "\n";
+
+        if (0 !== json_last_error()) die;
+
+        $output = [];
+        foreach ($object AS $id => &$parent)
+        {
+            if (! empty($parent->SDATA)) // just a separator, quickly shut off
+            {
+                // SDATA
+                $dom = New \DOMDocument();
+                $dom->loadHTML($parent->SDATA);
+
+                if (! $dom) Throw New \HttpException('Error while parsing the document');
+
+                $sxe = simplexml_import_dom($dom);
+
+                if (! is_object($sxe)) die("SimpleXML Object is empty..\n");
+
+                $item = $sxe->xpath('//td[contains(@class,    "thirdTitle")]');
+                $page = $sxe->xpath('//div[contains(@class,   "prsetpagelinks")]//a');
+
+
+                //uses same class sub-tables, no uniques....
+                $cost = $sxe->xpath('//form/table/tr[4]//td/table/tr[2]/td//input');
+                $parent->Cost = '0.00';
+
+                if (! empty($cost)) foreach ($cost AS $key => $obj)
+                {
+                    if (preg_match('/ZP_PRODUCT_OFFER.PRICE/', $getAttribute($cost [$key], 'name')))
+                    {
+                        $parent->Cost = $getAttribute($cost [$key], 'value');
+
+                        break;
+                    }
+                }
+
+                else
+                {
+                    //log missing
+                    file_put_contents(APP_DIR .'/error/NoPriceErrors.log', json_encode([
+                        'Name'  => (string) $item[0]->b,
+                        'Error' => 'No price mentioned',
+                        'SURL'  => $parent->SURL,
+                        'PURL'  => $parent->PURL,
+                    ], FILE_APPEND), LOCK_EX | JSON_PRETTY_PRINT);
+                }
+
+                // get the size declared
+                $parent->Size = $getSizes($parent->SDATA);
+
+                echo "Processing: " . (string)$item[0]->b . "\n";
+
+                $endpoints = [];    //clear buffer
+                if (!empty($page)) //we have several pagination going here....
+                {
+                    foreach ($page AS $attr) {
+                        $endpoints[] = ZR_ADMIN_URL . "?" . explode('?', $getAttribute($attr, 'href')) [1];
+                    }
+                }
+
+                //for trapping
+                $product = (object) [
+                    'name' => (string) $item[0]->b,
+                    'sku'  => (string) $item[1]->b,
+                    'ends' => $endpoints,
+                ];
+
+                $colors = []; //clear buffer
+                $colors = $getCodes($parent->SDATA, $id, $product);
+
+                if (! empty($endpoints))
+                {
+                    echo "Found " . $count = count($endpoints) . " additional pages in this set...\n"; //casts to right for error
+
+                    $total = count($endpoints);
+                    $inc   = 1;
+
+                    $resultList = [];
+                    foreach ($endpoints AS $endpoint)
+                    {
+                        $pad = str_pad($inc, strlen($total), 0, STR_PAD_LEFT);
+
+                        echo "Capturing: ({$pad}/{$total}): {$endpoint}\n";
+
+                        $ch = curl_init();
+                        curl_setopt_array($ch, [
+                            CURLOPT_URL => $endpoint,
+                            CURLOPT_COOKIEFILE => $cookieJar,
+                            CURLOPT_SSL_VERIFYPEER => 0,
+                            CURLOPT_RETURNTRANSFER => 1,
+                            CURLOPT_HEADER => 0,
+                            CURLOPT_FOLLOWLOCATION => 1,
+                        ]);
+
+                        $resultList[] = curl_exec($ch);
+
+                        //unpad to hundredths
+                        echo "Peak fake: " . (sprintf('%0.2f', memory_get_peak_usage(0) / 1024 / 1024)) . " MiB\n";
+                        echo "Peak real: " . (sprintf('%0.2f', memory_get_peak_usage(1) / 1024 / 1024)) . " MiB\n\n";
+                        unset($result);
+
+                        curl_close($ch);
+                        $inc++;
+                    }
+
+                    if (! empty($resultList)) foreach ($resultList AS $did => $slice) $colors = ($getCodes($slice, $did, $product) + $colors);
+                }
+
+                $parent->Swatches = $colors;
+            }
+
+            if (isset($parent->SDATA)) unset($parent->SDATA);
+
+            if (! empty($parent->PDATA))
+            {
+                // PDATA
+                $dom = New \DOMDocument();
+                $dom->loadHTML($parent->PDATA);
+
+                if (! $dom) Throw New \HttpException('Error while parsing the document');
+                $sxe = simplexml_import_dom($dom);
+
+                if (! is_object($sxe)) die("SimpleXML Object is empty..\n");
+
+                $data = $sxe->xpath('//form/table[2]/tr');
+
+                $output = [];
+                foreach ($data AS $value) if (isset($value->td[1]->textarea))
+
+                    //$key = preg_replace_callback('/[A-Z]/', function($match) { return "_" . strtolower($match[0]); }, (string) $value->td[0]);
+
+                    $output[
+                    str_replace(' ', '',
+                        ucwords(
+                            strtolower(
+                                str_replace('_', ' ', (string) $value->td[0])
+                            )
+                        )
+                    )
+                    ] = (string) $value->td[1]->textarea;
+
+                $output['DefaultColor'] = $getAttribute($data[4]->td[1]->input, 'value');
+                $parent->Configuration  = (object) $output;
+            }
+
+            if (isset($parent->PDATA)) unset($parent->PDATA);
+
+            gc_disable(); //Disable Garbage Collector
+        }
+
+        echo "Writing....\n";
+
+        file_put_contents(APP_DIR .'/input/Crawler-products.json', json_encode($object), LOCK_EX | JSON_PRETTY_PRINT);
+
+        echo "\n\nFinished!!!\n\n";
+
+    }
+
+    else
+    {
+        Throw New \LogicException('Something broke in file writing sequence...');
+    }

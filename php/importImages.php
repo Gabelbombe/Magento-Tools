@@ -9,85 +9,33 @@ Namespace //global
 
 Namespace MageTools
 {
-    Class Products
+    Class ProductsImageUploader
     {
-        protected $error  = [];
+        const IMGDIR = '/var/www/httpdocs/images/products/detail';
+        const CATDIR = '/var/www/httpdocs/images/products/category';
+        const OLDDIR = '/var/www/httpdocs/images/products/detail-old';
+        const WHTDIR = '/var/www/httpdocs/images/products/category-white';
 
-        private $products = [],
-                $skuMap   = ['config' => [], 'simple' => []];
+        public $products = [],
+               $errors   = [];
+
+        private $_uploadDir;
+        private $_imagePaths;
+
+        public function __construct()
+        {
+            // ....
+        }
 
         public function fetch()
         {
-            $this->products = $this->_parseCSV();
-            $this->skuArray = $this->_getSkuByProducts();
+            echo "Starting\n";
+
+            $this->_getProductList();
 
             return $this;
         }
 
-        protected function _getSkuByProducts()
-        {
-            if (! isset($this->products)) return [];
-
-            foreach ($this->products as $product)
-            {
-                if (! preg_match('/^[0-9]/', $product['sku']))
-                {
-                    $this->error[] = [
-                        'Reason' => 'Bad Sku',
-                        $product,
-                    ];
-
-                    continue;
-                }
-
-                if (preg_match('/^[0-9]{9}$/', $product['sku']))
-                {
-
-                    print_r(strpos($product['sku'],6)); die;
-                }
-
-                $this->skuMap[$product['sku']] =  $product;
-            }
-
-            return $this;
-        }
-
-
-        public function getProductSkuArray()
-        {
-            return (isset($this->skuMap) && ! empty($this->skuMap))
-                ? array_keys($this->skuMap)
-                : [];
-        }
-
-
-        private function _parseCSV()
-        {
-            $array  = array_map ('str_getcsv', file (__DIR__ . '/output/simple-products.csv'));
-            $header = array_shift ($array);
-
-            array_walk ($array, function (&$row, $null, $header)
-            {
-                if (count ($header) !== count ($row))
-                {
-                    $tmp = [];
-                    foreach ($header AS $inc => $key)
-                        $tmp[$key] = (isset($row[$inc])) ? $row[$inc] : false;
-                    file_put_contents (APP_DIR . '/logs/zr_errors.log', json_encode ($tmp, JSON_PRETTY_PRINT), LOCK_EX | FILE_APPEND);
-                    $row = $tmp;
-                }
-                else $row = array_combine ($header, $row);
-
-            }, $header);
-
-            return $array;
-        }
-    }
-
-    Class SkuImageUploader
-    {
-        private $_uploadDir;
-        private $_imagePaths;
 
         public function setUploadDirectory($dir = null)
         {
@@ -98,30 +46,30 @@ Namespace MageTools
                 $dir = 'upload';
             }
 
-            $this->_uploadDir = Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . $dir;
+            $this->_uploadDir = \Mage::getBaseDir('media') . DS . $dir;
 
-            // mkdir($this->_uploadDir . DIRECTORY_SEPARATOR . "/loaded", 0770);
+            if (! is_dir($this->_uploadDir))
+            {
+                mkdir($this->_uploadDir, 0700);
+                mkdir($this->_uploadDir . DS . "/loaded", 0770);
+            }
 
             return $this;
         }
 
-        public function load()
+        public function load(array $product)
         {
             $this->setUploadDirectory();
 
-            // Match product images like 123456.jpg
-            //$pattern = '[0-9][0-9][0-9][0-9][0-9][0-9].{jpg,gif,png}'; // numeric only
-            $pattern = '*.{jpg,jpeg,gif,png}'; //[0-9]{5}-[A-Za-z0-9]{2,5}-[0-9]{3}
-
             chdir($this->_uploadDir);
-            $this->_imagePaths = glob($pattern, GLOB_BRACE);
+            $this->_imagePaths = $product['Images'];
 
             return $this;
         }
 
-        public function showFiles()
+        public function showFiles(array $product)
         {
-            $this->load();
+            $this->load($product);
 
             echo "\n\nUnable to upload the following image files in {$this->_uploadDir}\n\n";
             print_r($this->_imagePaths);
@@ -129,14 +77,13 @@ Namespace MageTools
             return $this;
         }
 
-        private function _addImage($path)
+        private function _addImage($path, $sku)
         {
-            $sku = (string) intval($path);
             try
             {
-                echo "\nLoading SKU: {$sku} ... ";
+                echo "Loading SKU:  {$sku} ...";
 
-                $product = Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
+                $product = \Mage::getModel('catalog/product')->loadByAttribute('sku', $sku);
 
                 // if the product exists, attempt to add the image to it for all three items
                 if (false !== strpos(get_class($product), 'Catalog_Model_Product') && 0 < $product->getId())
@@ -162,34 +109,133 @@ Namespace MageTools
             return 0;
         }
 
-        private function _moveImage($path)
-        {
-            // rename($path, 'loaded' . DIRECTORY_SEPARATOR . $path);
-            unlink($path);
-        }
-
         public function import()
         {
             echo "\n";
 
-            if (! isset($this->_imagePaths)) $this->load();
-
-            foreach ($this->_imagePaths AS $path)
+            foreach ($this->products AS $type => $array)
             {
-                if ($this->_addImage($path)) $this->_moveImage($path);
+                foreach ($array AS $sku => $product)
+                {
+                    $this->load ($product);
+
+                    if (! empty($this->_imagePaths))
+                    {
+                        echo "Trying {$product['Name']}\n";
+
+                        foreach ($this->_imagePaths AS $path) $this->_addImage  ($path, $sku);
+                    }
+
+                    else
+                    {
+                        echo "{$product['Name']} missing images....\n";
+                    }
+                }
             }
 
             return $this;
+        }
+
+        public function getProductSkuArray()
+        {
+            return (isset($this->skuMap) && ! empty($this->skuMap))
+                ? array_keys($this->skuMap)
+                : [];
+        }
+
+
+        private function _shear(array $array)
+        {
+            $whitelist = [];
+            $paths     = [];
+
+            foreach ($array AS $path)
+            {
+                $name = basename($path);
+
+                if (! in_array($name, $whitelist))
+                {
+                    $whitelist[] = $name;
+                    $paths[]     = $path;
+                }
+            }
+
+            return $paths;
+        }
+
+
+        protected function _getProductList()
+        {
+            $_productCollection = \Mage::getModel('catalog/product')->getCollection()
+                ->addAttributeToSelect('name');
+
+            foreach ($_productCollection AS $product)
+            {
+                if (-1 !== preg_match("/^([0-9]{5})([0-9]{3})([0-9]+)$/", $sku = $product->getSku(), $matches))
+                {
+                    if (preg_match('/^[0-9]{5}$/', $sku))
+                    {
+                        $type = 'config';
+
+                        $cat = self::CATDIR . "/{$sku}-*";
+                        $img = self::IMGDIR . "/{$sku}-*";
+                        $old = self::OLDDIR . "/{$sku}-*";
+                        $wht = self::WHTDIR . "/{$sku}-*";
+                    }
+
+                    else
+                    {
+                        $type = 'simple';
+
+                        $cat = self::CATDIR . "/{$matches[1]}-main-{$matches[2]}*";
+                        $img = self::IMGDIR . "/{$matches[1]}-main-{$matches[2]}*";
+                        $old = self::OLDDIR . "/{$matches[1]}-main-{$matches[2]}*";
+                        $wht = self::WHTDIR . "/{$matches[1]}-main-{$matches[2]}*";
+                    }
+
+                    $images = $this->_shear(array_merge(glob($cat), glob($img), glob($old), glob($wht)));
+
+                    if (empty($images))
+                    {
+                        $this->errors[] = [
+                            'Name'  => $product->getName(),
+                            'Path'  => [
+                                $cat,
+                                $img,
+                                $old,
+                                $wht,
+                            ],
+                        ];
+                    }
+
+                    $this->products[$type][$sku] = [
+                        'Name'      => $product->getName(),
+                        'Refid'     => (! empty($matches[1]) ? $matches[1] : $sku),
+                        'Color'     => (! empty($matches[2]) ? $matches[2] : null),
+                        'Size'      => (! empty($matches[2]) ? $matches[2] : null),
+                        'Images'    => $images,
+                    ];
+
+                }
+                else
+                {
+                    Throw New \RuntimeException("bad SKU");
+                }
+            }
+
+            return $this;
+        }
+
+
+        public function getErrors()
+        {
+            print_r($this->errors);
         }
     }
 }
 
 Namespace
 {
-    $f = New MageTools\Products();
-    print_r($f->fetch()->getProductSkuArray());
-
-
-//    $u = New MageTools\SkuImageUploader();
-//    $u->import()->showFiles();
+    $f = New MageTools\ProductsImageUploader();
+    $f->fetch()->import()->getErrors();
 }

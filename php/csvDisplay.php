@@ -22,8 +22,7 @@ define ('APP_DIR', realpath(dirname(__DIR__)));
         return array_filter($array);
     };
 
-$products = $createFromCSV(APP_DIR . '/php/output/products.csv');
-//$mageDump  = $createFromCSV(APP_DIR . '/php/output/testReinsert.csv');
+$products = $createFromCSV(APP_DIR . '/php/boots.csv');
 
 $mage = [];
 foreach ($products AS &$array)
@@ -32,30 +31,16 @@ foreach ($products AS &$array)
 }
 
 
-
-    $csvFile = New SplFileObject(APP_DIR . '/php/output/products.csv', 'w');   // Debug: new SPLTempFileObject();
-    $csvFile->fputcsv(array_keys($products['configurable'][0]));
-foreach ($mage AS $products)
-    foreach ($products AS $export)
-    {
-        $csvFile->fputcsv((array) $export);
-    }
-
-
-
-echo "From Magento\n";
-
-foreach ($mage AS $name => $array) echo ucwords($name) . " Count: " . count($array)."\n";
-
-    echo "\n\n\n";
-
-
-$apps = [];
-foreach ($products AS $array)
+foreach ($mage AS $name => $array)
 {
-    ksort($array); $apps[(! empty($array['_type']) ? $array['_type'] : 'option')][] = $array;
+    echo "Name: {$name} = " .count($array) . "\n";
 }
 
+
+foreach ($mage['configurable'] AS $array)
+{
+    print_r($array);
+}
 
 die;
 echo "From Program\n";

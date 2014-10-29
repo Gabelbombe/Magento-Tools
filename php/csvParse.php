@@ -707,6 +707,8 @@ foreach($input AS $key => $products)
         ? 'complex'
         : 'simple';
 
+
+echo "$type\n";
 echo "Writing contents to: {$type}-products.csv\n";
 $csvFile = New SplFileObject(APP_DIR . "/php/output/{$type}-products.csv", 'w');   // Debug: new SPLTempFileObject();
 $csvFile->fputcsv(array_keys($attrTemplate));
